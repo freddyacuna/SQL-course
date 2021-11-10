@@ -40,6 +40,6 @@ PRODUCTORA.Nombre_Productora
 FROM PRODUCTORA
 WHERE (SELECT COUNT(TRABAJADOR.Rut_T) FROM PRODUCE, TRABAJADOR
 WHERE PRODUCTORA.ID_Productora=PRODUCE.ID_Productora AND
-PRODUCE.Rut_T=TRABAJADOR.Rut_T)&gt;100), &quot;Sí&quot;,&quot;No&quot;) AS &quot;Gran Productora&quot;
+PRODUCE.Rut_T=TRABAJADOR.Rut_T)>100), "Sí","No") AS "Gran Productora"
 FROM PRODUCTORA
 GROUP BY PRODUCTORA.Nombre_Productora
