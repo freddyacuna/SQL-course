@@ -7,9 +7,9 @@
  
 ALTER TABLE USUARIO ADD Continente TEXT;
 UPDATE USUARIO
-SET Continente = IF(USUARIO.Pais_U = &quot;Argentina&quot; OR USUARIO.Pais_U = &quot;Brasil&quot; OR USUARIO.Pais_U =
-&quot;Chile&quot; OR USUARIO.Pais_U = &quot;Colombia&quot; OR USUARIO.Pais_U = &quot;Peru&quot;, &quot;America del Sur&quot;, IF(USUARIO.Pais_U
-= &quot;Costa Rica&quot;, &quot;America Central&quot;, &quot;America del Norte&quot;))
+SET Continente = IF(USUARIO.Pais_U = "Argentina"; OR USUARIO.Pais_U = "Brasil"; OR USUARIO.Pais_U =
+"Chile" OR USUARIO.Pais_U = "Colombia" OR USUARIO.Pais_U = "Peru", "America del Sur", IF(USUARIO.Pais_U
+= "Costa Rica", "America Central", "America del Norte";))
 
 --(900 filas afectadas)
 
