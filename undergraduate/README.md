@@ -1,4 +1,4 @@
-# Introducción a Python para las Finanzas (Last Update: March 2022)
+# Sistemas de Administración de Base de Datos.
 
 ## Competencias
 
