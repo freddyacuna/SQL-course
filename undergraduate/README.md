@@ -3,13 +3,18 @@
 ## Competencias
 
 Dominio 1: GESTIÓN DE SISTEMAS DE INFORMACIÓN PARA PROCESOS DE NEGOCIO.
+
 Aborda la problemática de los requerimientos de flujo de información en las organizaciones, proponiendo soluciones que enlacen los requerimientos de procesos, 
 información, tecnologías de información, estrategia y control de gestión. Las competencias comprometidas en este dominio son:
+  
   1.1 Reconocer, describir y analizar la manera en que las organizaciones utilizan los Sistemas de Información y Tecnologías de Información (SI/TI), 
       estratégica y operacionalmente, como apoyo a sus procesos de negocio.
+      
 Dominio 2: GESTIÓN DE DATOS, INFORMACIÓN E INDICADORES PARA LA TOMA DE DECISIONES.
+
 Aborda la problemática de captura de datos y generación de información y conocimiento de valor para el apoyo a la toma de decisiones, con el fin de dar cumplimiento 
 a la estrategia de la organización. Las competencias comprometidas en este dominio son:
+  
   2.1 Establecer las necesidades de almacenamiento de datos e información relevante y sus relaciones.
   
 ## Contenidos
