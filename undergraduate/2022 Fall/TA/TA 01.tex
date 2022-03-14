@@ -1,0 +1,145 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+\section{Introducción}
+\begin{center}
+\begin{tikzpicture}[auto,node distance=6em, every edge/.style={link}]
+
+  \node[entity] (emp) {ENTIDAD 1};
+  
+  \node[relationship] (works) [below of=emp, node distance=8em] {RELACIÓN} edge (emp);
+
+  \node[entity] (dept) [below of=works, node distance=8em] {ENTIDAD 2} edge (works);
+    \node[attribute] (atributo clave) [left=2em of dept] {\key{Aributo Clave}} edge (dept);
+    \node[attribute] (atributo) [right=2em of dept] {Atributo} edge (dept);
+    \node[multi attribute] (atributo multi) [right=2em of dept, xshift=-5mm, yshift=+9mm] {Atributo Multievaluado} edge (dept);
+    \node[derived attribute] (atributo derivado) [below=2em of dept] {Atributo Derivado} edge (dept);
+    
+\end{tikzpicture}
+\end{center}
+
+Por ejemplo, una entidad que sea persona natural con AtributoClave el RUT, Atributo1 la fecha de nacimiento, siendo un AtributoDerivado la edad y el AtributoMultivaluado los idiomas que habla, conociendo que existen personas que hablan más de uno.\newline
+
+
+En el caso de que la entidad se vuelva una superclase, por ejemplo, sabiendo que la relación se basa en personas que son parte de un instituto educacional, se podría realizar una subdivisión sabiendo que las personas pueden ser estudiantes o profesores.
+
+\begin{center}
+\begin{tikzpicture}[node distance=6em, every edge/.style={link}]
+
+  \node[entity] (entidad1) {ENTIDAD};
+    % \node[attribute] (e_id) [left=2em of entidad1] {\key{ID}} edge (entidad1);
+    % \node[multi attribute] (e_name) [right=2em of entidad1] {Name} edge (entidad1);
+    % \node[attribute] (e_sal) [above=2em of entidad1] {Salary} edge (entidad1);
+
+  \node[relationship] (relacion1) [below of=entidad1, node distance=8em] {RELACION} edge (entidad1);
+
+  \node[entity] (superclass) [below of=relacion1, node distance=8em] {SUPERCLASE} edge (relacion1);
+     \node[attribute] (atributoclave) [left=2em of superclass] {\key{Aributo Clave}} edge (superclass);
+     \node[attribute] (atributo) [left=2em of superclass,yshift=+9mm] {Atributo} edge (superclass);
+     \node[multi attribute] (atributomulti) [left=2em of superclass, xshift=+11mm,yshift=+20mm] {Atributo Multievaluado} edge (superclass);
+     \node[derived attribute] (atributoderived) [left=2em of superclass, xshift=0mm,yshift=-9mm] {Atributo Derivado} edge  (superclass);
+
+  \node[superclas] (s) [right=1cm of superclass] {S} edge [total] (superclass);
+
+  \node[entity] (subclase1) [right=1cm of s,yshift=+8mm] {SUBCLASE1} edge (s);
+  \node[entity] (subclase2) [right=1cm of s, yshift=-8mm] {SUBCLASE2} edge (s);
+    
+  \node[ident relationship] (relacion_debil) [below of=superclass, node distance=10em] {RELACION DEBIL} edge (superclass);
+  
+  \node[weak
+ entity] (superclass) [below of=relacion_debil, node distance=10em] {ENTIDAD DEBIL} edge (relacion_debil);
+
+\end{tikzpicture}
+\end{center}
+
+Asimismo, en cuanto a la relación débil, se podría indicar que la persona podría tener un compañero de cuatro patas, sabiendo que existen algunos que no poseen uno. \newline
+
+Ya con toda esta información, podemos llegar a armar un modelo como el siguiente: 
+
+
+\begin{center}
+\begin{tikzpicture}[node distance=6em, every edge/.style={link}]
+
+  \node[entity] (entidad1) {INSTITUO EDUCACIONAL};
+    % \node[attribute] (e_id) [left=2em of entidad1] {\key{ID}} edge (entidad1);
+    % \node[multi attribute] (e_name) [right=2em of entidad1] {Name} edge (entidad1);
+    % \node[attribute] (e_sal) [above=2em of entidad1] {Salary} edge (entidad1);
+
+  \node[relationship] (relacion1) [below of=entidad1, node distance=10em] {ES FORMADO POR} edge (entidad1);
+
+  \node[entity] (superclass) [below of=relacion1, node distance=10em] {PERSONA} edge (relacion1);
+     \node[attribute] (atributoclave) [left=2em of superclass] {\key{RUT}} edge (superclass);
+     \node[attribute] (atributo) [left=2em of superclass,yshift=+9mm] {FechaNac} edge (superclass);
+     \node[multi attribute] (atributomulti) [left=2em of superclass, xshift=-5mm,yshift=+20mm] {Idiomas} edge (superclass);
+     \node[derived attribute] (atributoderived) [left=2em of superclass, xshift=0mm,yshift=-9mm] {Edad} edge  (superclass);
+
+  \node[superclas] (s) [right=1cm of superclass] {S} edge [total] (superclass);
+
+  \node[entity] (subclase1) [right=1cm of s,yshift=+8mm] {ESTUDIANTE} edge (s);
+  \node[entity] (subclase2) [right=1cm of s, yshift=-8mm] {PROFESOR/A} edge (s);
+    
+  \node[ident relationship] (relacion_debil) [below of=superclass, node distance=10em] {POSEE} edge (superclass);
+  
+  \node[weak
+ entity] (superclass) [below of=relacion_debil, node distance=10em] {COMPAÑERO/A} edge (relacion_debil);
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+\section{Ejercicio}
+
+Se pide generar un MER para la siguiente situación: \newline
+
+La organización MIEMPRESA debe mantener información respecto a los proyectos que posee, conociendo el nombre del proyecto, el número de identificación de cada uno y la localización de este. En cada proyecto se tienen empleados que trabajan en ellos, por lo que es vital conocer también el rut de cada uno de ellos, su nombre, fecha de nacimiento, género, dirección y el salario de cada uno.
+
+\begin{center}
+\begin{tikzpicture}[auto,node distance=6em, every edge/.style={link}]
+
+  \node[entity] (emp) {EMPLEADO};
+  \node[attribute] (atributo clave) [left=2em of emp] {\key{RUT}} edge (emp);
+    \node[attribute] (atributo) [right=2em of emp] {FechaNcto} edge (emp);
+    \node[attribute] (atributo) [above right=2em of emp, xshift=-5mm, yshift=+9mm] {Nombre} edge (emp);
+    \node[attribute] (atributo) [above=2em of emp] {Género} edge (emp);
+     \node[attribute] (atributo) [above left=2em of emp] {Dirección} edge (emp);
+      \node[attribute] (atributo) [above right=2em of emp] {Salario} edge (emp);
+    
+  \node[relationship] (works) [below of=emp, node distance=8em] {TRABAJA EN} edge (emp);
+  
+   \node[attribute] (atributo) [right=2em of works] {Horas} edge (works);
+
+  \node[entity] (dept) [below of=works, node distance=8em] {Proyecto} edge (works);
+    \node[attribute] (atributo clave) [left=2em of dept] {\key{NúmeroP}} edge (dept);
+    \node[attribute] (atributo) [right=2em of dept] {NombreP} edge (dept);
+     \node[attribute] (atributo) [below=2em of dept] {LocalizaciónP} edge (dept);
+    
+    
+\end{tikzpicture}
+\end{center}
+
+\end{document}
