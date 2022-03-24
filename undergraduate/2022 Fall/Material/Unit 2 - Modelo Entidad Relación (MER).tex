@@ -1,0 +1,50 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+
+Diseñar el MER para cada uno de los requerimientos de abajo:
+
+1. El gerente de un cine le pide ayuda para registrar los datos asociados al negocio. Le informa que el cine tiene varias salas, y en cada una de ellas se exhiben películas. Para cada sala, el gerente necesita registrar el tipo de sala, y su capacidad; junto con las películas que se exhiben en la sala. De las películas al menos requiere saber el nombre y el tipo de película. Se sabe que una película siempre es exhibida en una sala.
+
+
+
+2. El gerente de un cine le pide ayuda para registrar los datos asociados al negocio. Le informa que el cine tiene varias salas, y en cada una de ellas se exhiben películas. Para cada sala, el gerente necesita registrar el tipo de sala, y su capacidad; junto con el registro de la fecha de inicio y de término en que la película estará en cartelera. De las películas al menos requiere saber el nombre y el tipo de película. Se sabe que una película siempre es exhibida en una sala.
+
+3. El gerente de un cine le pide ayuda para registrar los datos asociados al negocio. Le informa que el cine tiene varias salas, y en cada una de ellas se exhiben películas. Para cada sala, el gerente necesita registrar el tipo de sala, y su capacidad; junto con el registro de las fechas y horas en que las películas se exhiben. De las películas al menos requiere saber el nombre y el tipo de película. Se sabe que una película puede ser exhibida en más de una sala.
+
+4. El gerente de un cine le pide ayuda para registrar los datos asociados al negocio. Le informa que el cine tiene varias salas, y en cada una de ellas se exhiben películas. Para cada sala, el gerente necesita registrar el tipo de sala, y su capacidad; junto con el registro de las fechas y horas en que las películas se exhiben. Cada vez que una película es exhibida en una sala, se requiere anotar quién es el encargado. De las películas al menos requiere saber el nombre y el tipo de película. Se sabe que una película puede ser exhibida en más de una sala.
+
+5. En una tienda trabajan muchos vendedores, de los cuales se almacena la fecha cuando ingresaron a trabajar, salario, edad, su nombre, dirección y celular. Los empleados poseen un único supervisor, el cual a su vez puede supervisar de 3 a 10 empleados, y poseen los mismos atributos que estos. Los vendedores venden muchos productos al día, y a los gerentes les interesa saber cuánto vende cada uno de los empleados. Un producto se identifica por su código de barra, además cada producto posee un único proveedor, el cual puede distribuir más de un producto a la empresa. Finalmente, se sabe que alguno proveedores son representados por hasta 2 proveedores, y los proveedores representantes pueden representar de 1 a 5 proveedores.
+
+6. El servicio de metro realiza cientos de recorridos diarios, realizados por varios trenes. Sobre cada recorrido se debe saber la cantidad de estaciones que recorre, duración, estación de inicio y estación de término. Además, se requiere conocer el horario de inicio de cada recorrido y el horario de fin de éste. Con respecto a los trenes, se requiere saber su patente, fecha de debut en el servicio de transporte, cantidad de carros y las fechas en las que se realizaron sus revisiones técnicas. Cada tren es conducido por un chofer, del cual se requiere saber su rut, nombre y fecha de nacimiento.
+
+7. El ministerio del deporte desea llevar un registro de las corridas que se efectúan en el país. Para eso en primer lugar debe registrar cada corrida, la cual se identifica con un código particular, además poseen un nombre, la fecha de su realización compuesta por un día, mes y año, y se debe saber la ciudad dentro de la cual se efectúa dicha corrida. Cada corrida puede poseer más de un recorrido dependiendo de la cantidad de kilómetros a la cual se inscriba el participante (atributo característico de cada recorrido), a su vez, cada recorrido cuenta con un punto de inicio, un punto final, una hora de inicio y diversos puntos de agua para la hidratación. Por último, se deben registrar los participantes que se inscriben en cada corrida y se debe saber también a cuál recorrido se registraron éstos, ya que de eso depende el precio que debe pagar cada participante por asistir a la corrida. De los participantes, se debe guardar la información sobre su Rut, fecha de nacimiento, y por ende su edad, su sexo, y el número de inscripción.
+
+8. Una empresa de turismo de Santiago realiza distintos tipos de actividades diariamente como trekking, canopy, etc. donde debe recoger y dejar a los turistas en sus respectivos hoteles. Para esto en primer lugar debe llevar un registro de la actividad que contrató cada turista, la cual se identifica con un código particular, nombre, duración y la ciudad donde es realizada. Cada turista solo puede realizar una actividad por día, a su vez, por cada turista además de sus datos personales como nombre, apellido, edad, sexo, id y nacionalidad; es necesario tener información de emergencia como número de emergencia y seguro de viajes si es que posee. Por último, se debe registrar el hotel donde se hospeda cada turista, donde se debe almacenar información como nombre, rut y ubicación (calle, número y comuna).
+
+\end{document}
