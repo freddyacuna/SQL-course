@@ -1,0 +1,54 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+\section{Pregunta 1}
+
+La situación de pandemia ha generado que los restaurantes no puedan funcionar, o si lo hacen, que estén muy desocupados. Esto ha provocado que Don Cangrejo pase todo el día pensando en cómo modernizar el Crustáceo Cascarudo para poder volver con todo cuando todo esto termine. Por lo anterior, y para ganar aún más de su valioso dinero, ha decidido que quiere instalar sistemas de información en él, por lo que requiere de las tremendas habilidades de usted, para que realice una asesoría donde modele una base de datos en Dibujos de Google con los elementos más esenciales para los restaurantes y así pueda tener un mayor entendimiento de la situación. 
+
+Se sabe que cada restaurante posee un nombre único, un dueño, fecha de fundación, ubicación y uno o más números telefónicos. Los restaurantes son los encargados de ofrecer la comida, la cual puede repetirse en el menú de varios restaurantes. Cada comida tiene su número identificador, nombre, ingredientes, precio y tipo (sándwich, ensalada, etc.). 
+
+Además, y para aplicar inteligencia de negocios, sería bueno almacenar los datos de los clientes, quienes pueden comprar una o más comidas. Lo ideal sería almacenar el Rut, nombre, edad, fecha de nacimiento y medio de contacto del cliente (número telefónico y/o mail).
+
+\section{Pregunta 2}
+
+La empresa MercadoFree, en busca de poseer mayor información en cuanto a los envíos que se realizan en la transacción de los productos ofrecidos en su página web, se encuentra desarrollando una base de datos para ello.
+
+Los encargados de transportar los paquetes, los Drivers, de los cuales se conoce su RUT, nombre, salario, empresa para la que trabaja, fecha en la que comenzó a trabajar como driver y la cantidad de meses que lleva trabajando en ello, reparten los paquetes a los clientes de la empresa, los cuales están identificados por su RUT, nombre, fecha de nacimiento y puntos que posee en su cuenta. Asimismo, la información que se requiere del paquete enviado es el código, nombre del remitente, destinatario, la dirección del destinatario, fecha de compra, la descripción y las medidas en centímetros.
+
+Con toda esta información, se solicita que usted genere un MER para representar lo anteriormente descrito.
+
+\section{Pregunta 3}
+
+A estas alturas del año, la gran mayoría (si es que no todas) las universidades ya han pasado por la etapa de la matrícula de sus alumnos, por lo que, con fines de estudio, se hace una recopilación de información en base a esto.
+
+Principalmente, se sabe que cada alumno, el cual se identifica con su RUT y se conoce su nombre, fecha de nacimiento y edad, paga su matrícula en una universidad con un nombre único y una dirección específica, la que se compone de la calle y el número. Es de conocimiento público que depende de la universidad cuánto es el desembolso de la matrícula, por lo que es necesario conocer el monto de ella junto con el ID correspondiente.
+
+Por último, al comenzar las clases, se informa que, para ciertos fines universitarios, es necesario elegir un delegado estudiantil, el cual lo escogen sus pares, es decir, los mismos estudiantes.
+
+
+\end{document}
