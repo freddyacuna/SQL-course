@@ -27,9 +27,25 @@
 
 \begin{document}
 
+
 \section{Introducción}
 
+Tras el final del confinamiento, y tal como ocurrió con la vuelta a clases presenciales, usted puede volver a practicar deportes con sus amistades. De hecho, este mismo semestre le han inscrito el ramo “Fútbol para Infos”, el cual usted está con muchas ansias de tomar. El simpático profesor decide hacer una arriesgada apuesta con usted: “Si me logras diseñar el MER de un partido, te apruebo el ramo con un 7“, por lo que usted decide ganar tan fácil desafío. 
+
+La información conocida es la siguiente: Dos equipos juegan el uno contra el otro en cada partido. De cada equipo se conoce el nombre, el escudo, la cantidad de jugadores y la indumentaria (color de medias, color de pantalón y color de camiseta); mientras que, del partido, se conoce la fecha, hora de inicio, hora de término, duración, cancha y resultado. Adicionalmente, se sabe que en cada equipo hay entre 7 y 11 jugadores, de los cuales se sabe el nombre, rut, posiciones en las que juega (arco, defensa, mediocampo y/o delantera) y medios de contacto (teléfonos y/o correos electrónicos). Si bien cada jugador solo puede jugar en un equipo, los equipos pueden jugar todos los partidos que quieran.
+
+\section{Desarrollo (Pauta)}
+
 Dos equipos juegan el uno contra el otro en cada partido.
+\begin{center}
+\begin{tikzpicture}[auto,node distance=12em,]
+    \node[entity] (team) {EQUIPO};
+    \node[relationship] (play) [right of=team] {JUEGA} 
+        edge node[auto,swap] {(1,N)} (team);        
+    \node[entity] (game) [right of=play] {PARTIDO} 
+        edge node[auto,swap] {(2,2)} (play);
+\end{tikzpicture}
+\end{center}
 
 De cada equipo se conoce el nombre, el escudo, la cantidad de jugadores y la indumentaria (color de medias, color de pantalón y color de camiseta); 
 
@@ -37,7 +53,7 @@ De cada equipo se conoce el nombre, el escudo, la cantidad de jugadores y la ind
 \begin{tikzpicture}[auto,node distance=6em, every edge/.style={link}]
 
     \node[entity] (team) {EQUIPO};
-        \node[attribute] (name) [left=2em of team] {\key{Nombre}} edge (team);
+        \node[attribute] (name) [left=2em of team] {\key{NombreEquipo}} edge (team);
         \node[attribute] (shield) [above left=2em of team] {Escudo} edge (team);
         \node[derived attribute] (quantity) [above =3em of team] {CantidadJugadores} edge (team);
         \node[attribute] (dress) [right=2em of team] {Indumentaria} edge (team);
@@ -59,7 +75,7 @@ mientras que, del partido, se conoce la fecha, hora de inicio, hora de término,
         \node[derived attribute] (duration) [above right=3em of game] {Duración} edge (game);
         \node[attribute] (ground) [right=2em of game] {Cancha} edge (game);
         \node[attribute] (ground) [below=2em of game] {Resultado} edge (game);
-            % \node[attribute] (shirt) [right=2em of dress] {ColorCamiseta} edge (dress);
+        \node[attribute] (id) [below left=2em of game] {\key{ID\_Partido}} edge (game);
 \end{tikzpicture}
 \end{center}
 
@@ -72,19 +88,28 @@ Adicionalmente, se sabe que en cada equipo hay entre 7 y 11 jugadores, de los cu
     \node[entity] (player) {JUGADOR};
         \node[attribute] (name) [left=2em of player] {Nombre} edge (player);
         \node[attribute] (rut) [above left=2em of player] {\key{RUT}} edge (player);
-        \node[attribute] (position) [above =2em of player] {Posición} edge (player);
+        \node[multi attribute] (position) [above =2em of player] {Posición} edge (player);
         \node[multi attribute] (contact) [right=2em of player] {Contacto} edge (player);
             \node[multi attribute] (phone) [above=2em of contact] {Telefono} edge (contact);
             \node[multi attribute] (email) [above right=2em of contact] {Correo} edge (contact);
 \end{tikzpicture}
 \end{center}
 
-
-
-
-
-
 Si bien cada jugador solo puede jugar en un equipo, los equipos pueden jugar todos los partidos que quieran.
+
+\begin{center}
+\begin{tikzpicture}[auto,node distance=12em,]
+    \node[entity] (player) {JUGADOR};
+    \node[relationship] (play) [right of=player] {JUEGA\_EN} 
+        edge node[auto,swap] {(1,1)} (player);        
+    \node[entity] (player) [right of=play] {EQUIPO} 
+        edge node[auto,swap] {(7,11)} (play);
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+\section{MER (Pauta)}
 
 
 
@@ -95,26 +120,36 @@ Si bien cada jugador solo puede jugar en un equipo, los equipos pueden jugar tod
 \node[entity] (player) {JUGADOR};
         \node[attribute] (name) [left=2em of player] {Nombre} edge (player);
         \node[attribute] (rut) [above left=2em of player] {\key{RUT}} edge (player);
-        \node[attribute] (position) [above =2em of player] {Posición} edge (player);
+        \node[multi attribute] (position) [above =2em of player] {Posición} edge (player);
         \node[multi attribute] (contact) [right=2em of player] {Contacto} edge (player);
             \node[multi attribute] (phone) [above=2em of contact] {Telefono} edge (contact);
             \node[multi attribute] (email) [above right=2em of contact] {Correo} edge (contact);
   
-\node[relationship] (toplay) [below of=player, node distance=8em] {JUEGA\_EN} edge (player);
+\node[relationship] (toplay) [below of=player, node distance=8em] {JUEGA\_EN} edge node[auto,swap] {(1,1)} (player);
 
-\node[entity] (team) [below of=toplay, node distance=8em] {EQUIPO} edge (toplay);
-        \node[attribute] (name) [left=2em of team] {\key{Nombre}} edge (team);
+\node[entity] (team) [below of=toplay, node distance=8em] {EQUIPO} edge node[auto,swap] {(7,11)} (toplay);
+        \node[attribute] (name) [left=2em of team] {\key{NombreEquipo}} edge (team);
         \node[attribute] (shield) [above left=2em of team] {Escudo} edge (team);
-        \node[attribute] (quantity) [below left =3em of team] {CantidadJugadores} edge (team);
+        \node[derived attribute] (quantity) [below left =3em of team] {CantidadJugadores} edge (team);
         \node[attribute] (dress) [right=2em of team] {Indumentaria} edge (team);
             \node[attribute] (hose) [above=2em of dress] {Color} edge (dress);
             \node[attribute] (bags) [above right=2em of dress] {Tipo} edge (dress);
 
-\node[relationship] (play) [below  right = of team, node distance=8em,  xshift=-30mm] {JUEGA} edge (team);
+\node[relationship] (play) [below  right = of team, node distance=8em,  xshift=-30mm] {JUEGA} edge node[auto,swap] {(1,N)} (team);
 
+\node[entity] (game) [below of=play, node distance=8em] {PARTIDO} edge node[auto,swap] {(2,2)} (play);
+        \node[attribute] (date) [below left=2em of game] {Fecha} edge (game);
+        \node[attribute] (begin) [left =2em of game] {HoraInicio} edge (game);
+        \node[attribute] (end) [above left=3em of game] {HoraTérmino} edge (game);
+        \node[derived attribute] (duration) [above right=3em of game] {Duración} edge (game);
+        \node[attribute] (field) [right=2em of game] {Cancha} edge (game);
+        \node[attribute] (outcome) [below=2em of game] {Resultado} edge (game);
+        \node[attribute] (id) [below right=2em of game] {\key{ID\_Partido}} edge (game);
   
 \end{tikzpicture}
 \end{center}
 
 
+  
+  
 \end{document}
