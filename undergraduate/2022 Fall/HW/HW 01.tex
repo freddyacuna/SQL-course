@@ -1,0 +1,64 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+
+\section{OBJETIVOS DELAPRENDIZAJE}
+
+\begin{itemize}
+    \item Diseñar un Modelo Entidad Relación Extendido (MERE) de una base de datos.
+    \item Derivar su respectivo Diagrama del Esquema del Modelo Relacional (MR).
+    \item Implementar dicho modelo e introducir datos en el ambiente MySQL
+\end{itemize}
+
+
+\section{INSTRUCCIONES GENERALES}
+
+\begin{itemize}
+    \item El diseño del MERE debe ser presentado en una sola página con orientación horizontal. TODOS los elementos deben poder leerse claramente.
+    \item El Diagrama del Esquema del MR debe utilizar toda la plana de una sola hoja, con orientación vertical, espacio suficiente entre tablas para que las relaciones de integridad referencial (flechas) se visualicen claramente y diferencien una de otra. Se recomienda utilizar colores distintos en las líneas y que estas no se interpongan unas con otras.
+    \item Tanto el MERE y MR, deben ser diseñados con \Latex.
+    \item Para la implementación de la Base de Datos en MySQL, incluya el ingreso de al menos 3 registros para cada tabla (aunque para ello, seguramente algunas otras tablas tendrán que introducir más registros). Esto debe ser congruente con la estructura de la base de datos que usted implemente; es decir, se deben utilizar todos los datos de cada entidad al momento de ser relacionados con otros, al menos una vez.
+    \item Este trabajo debe ser resuelto de forma INDIVIDUAL, y todos los supuestos que usted ha de incluir no pueden reorientar la intención del enunciado, ni desobedecer a las condiciones que se expliciten.
+    \item Se descontarán puntos en caso de que no se cumpla la nomenclatura enseñada en clases y en ayudantías para los modelos y la implementación. Asimismo, los datos introducidos en la Base de Datos implementada en MySQL que no tengan relación entre las tablas, o bien sean sin sentido no serán considerados para asignar puntaje.
+
+\end{itemize}
+
+\section{DESCRIPCIÓN DEL REQUERIMIENTO}
+\subsection{EL FUNCIONAMIENTO DE LA FUNDACIÓN AVANZA INCLUSIÓN.}
+
+De acuerdo con cifras del Segundo Estudio Nacional de Discapacidad, en Chile existe un total de 2.836.828 personas dentro del colectivo de personas en situación de discapacidad, de los cuales sólo un 42,8\% participa en el mercado laboral buscando empleo o trabajando, mientras que solo un 1,01\% de aquellos en edad de trabajar se han registrado como contratados. Asimismo, se sabe que el 39,3\% tiene empleo, de los cuales, el 73,9\% tiene contrato a plazo indefinido y el 26,1\% a plazo fijo, lamentables cifras para el contexto actual. Para regular esta situación, existen diversas asociaciones que buscan brindar apoyo en este ámbito, tal como AVANZA Inclusión, institución sin fines de lucro que promueve la inclusión sociolaboral de colectivos en riesgos de exclusión social para potenciar la empleabilidad y que alcancen así una participación activa y autónoma en sociedad. Se trabaja con una modalidad de Empleo con Apoyo, capacitando directamente y de manera individualizada al usuario en el puesto de trabajo para permitir el acceso, mantención y promoción en el mercado laboral regular, en igualdad de condiciones. Dada la gran carga de datos que esto implica, es que se requiere de su asesoría para gestionar de manera más eficiente estos grandes volúmenes de información. Para lograr esto, se le pide diseñar una base de datos con la información relevante de su funcionamiento, generando un MERE apropiado, derivando su respectivo MR, y finalmente modelando las tablas en el ambiente MySQL, para lo cual se provee la siguiente información:
+
+Por lo anterior, se deben almacenar los datos de las distintas personas a las que se les prestará apoyo, principalmente el período en el que ingresó al sistema (año y mes), su nombre, rut, fecha de nacimiento, edad, nacionalidad, género, teléfono, otro teléfono (en caso de emergencias), y dirección de correo electrónico. Además, se deben tener registros de las comunas, regiones, y pueblos originarios de estas personas, si busca o no trabajo, o si quiere o no que le contacten. Algunas de las personas estarán en el programa de pre-inserción, en el cual se les ayudará a realizar prácticas (idealmente 4), por lo que se debe registrar la cantidad de estas prácticas. También se debe tener registro de sus acreditaciones (credencial y/o pensión), y los tipos de discapacidades (Física/Motora, Intelectual, Sensorial Visual, etc.). Por otra parte, se sabe que la credencial de discapacidad puede otorgar todos, algunos o ningún beneficio, lo cual debe quedar almacenado también. De no poseer credencial, es de interés de la fundación conocer si la persona está interesada en obtener una, para así apoyar con la realización de los trámites. Sin embargo, el trámite de la credencial es sólo uno de los muchos que deben hacerse, de los cuales, la mayoría pide información contenida en el Registro Social de Hogares. Dado esto, es que se debe conocer las personas que cuentan con este registro, además del rango porcentual en el que se encuentran (0-40, 41-50, 51-60, 61-70, 71-80, 81-90 ó 91-100).
+
+La institución le puede proporcionar ayuda técnica a las personas que lo necesiten, para lo cual es necesario registrar qué personas la requieren y qué ayuda proporcionar (bastón, prótesis auditivas en ambos oídos, lector de pantalla, bastón solo para trayecto, bastón fijo, etc.). También es importante conocer el nivel educacional de cada persona, el cual puede estar en una de las siguientes categorías de manera completa o incompleta: Universitario, Técnico (nivel superior o medio), Media o Básica. En el caso de las personas que hayan completado un nivel educacional universitario o técnico, también se debe conocer su título/profesión. Por otra parte, quienes hayan completado al menos la educación media, podrían haber realizado un postgrado, por lo que se debe registrar el tipo de éste (curso, técnico, diplomado, magíster o doctorado) si es que aplica, junto con el último grado/curso realizado. Para quienes tengan licencia de conducir también se debe registrar su clase.
+
+Dado que el principal objetivo de AVANZA Inclusión es el de promover la inclusión sociolaboral, sería bueno también conocer (ojalá) 3 expectativas laborales potenciales de cada persona, las cuales pueden ser tan variadas como soporte informático, aseo, profesor universitario, secretaria o analista de contratos, por dar algunos ejemplos. Junto a lo anterior, también se debe almacenar las categorizaciones de cargos (Profesional u Operativo) y rubros relativos a cada persona, si poseen experiencia en relatoría, o un emprendimiento (y el rubro de éste, si es que aplica). Finalmente, es menester tener conocimiento de las formas en las que las personas llegaron a AVANZA, siendo posibles alternativas la Prensa, Redes sociales, la Página de AVANZA, Portales Laborales, Referidos internos, u otros; y conocer posibles observaciones importantes a tener en cuenta que no calcen en alguna de las categorías anteriores.
+
+Adicionalmente, se sabe también que AVANZA maneja una planilla adicional en la que registran datos de las inclusiones laborales que se han dado desde el año 2012. Estos datos son: Año colocación, número (correlativo), nombre de la persona, tipo de discapacidad que posee, la empresa, el tipo de cargo, entrada de solicitud, fecha de inicio del contrato, fecha de término del contrato, tipo de contrato, antigüedad laboral (en meses), la región, permanencia (excelente, buena o mala), junto con notas adicionales (renuncia, desvinculación, reemplazo, etc.). Efectúe las acciones que estime necesarias para incorporar la información de esta planilla en su modelo.
+
+\end{document}
