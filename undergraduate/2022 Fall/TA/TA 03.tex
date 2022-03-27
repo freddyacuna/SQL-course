@@ -1,0 +1,54 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+
+\section{PREGUNTA 1}
+
+\begin{enumerate}
+
+    \item Ante la posible amenaza de una invasión masiva, se decidió registrar de manera detallada la información de las bases militares. De las bases militares es necesario almacenar su código identificador, su dirección (calle, número y estado) y cantidad de soldados. Cada base militar tiene una cantidad variable de silos, de los que se quiere saber su código, metraje cuadrado, proveedores, nivel de seguridad y un informe que incluya los nombres de todo el armamento almacenado y la cantidad disponible de este.
+
+\end{enumerate}
+(Variación) Esboce el MER resultante del requerimiento de a), si también se debiera registrar la fecha en la que cada silo se incorporó a su correspondiente base militar, y si hubiera que almacenar la ID, nombre y ubicación de la extensión (que solo algunos silos tienen):
+
+\begin{enumerate}[resume]
+
+    \item Cada base militar cuenta con personal del que es necesario conocer su rut, edad, fecha de nacimiento, sexo, grado militar. También, se debe identificar al superior directo de los trabajadores de las instalaciones y a aquellos trabajadores que se encargan de vigilar distintos silos.
+    \item Por último, es necesario saber sobre las cajas que se guardan en los silos, indicando su código SKU, fecha de ingreso, su origen (si es terrestre o no), tiempo de almacenamiento y valor estimado.
+\end{enumerate}
+
+\section{PREGUNTA 2}
+El intendente de la región Metropolitana decide hacer un concurso masivo de perros, por lo que se requiere recopilar la información de sus respectivos participantes y ganadores.
+
+\begin{enumerate}
+    \item Para que sea un concurso descentralizado, cada municipalidad realizará el concurso en su respectiva comuna. De las municipalidades se requiere saber su comuna, su dirección y la cantidad de metros cuadrados de su terreno. Por otro lado, del concurso se requiere saber el número de edición y la fecha, que se divide en día, mes y año. Finalmente, los participantes deben inscribirse en el concurso, siendo estos los dueños junto a sus perros, por lo que el dueño se inscribe a sí mismo y además inscribe a su perro. El único requisito para que un perro sea inscrito es que tenga chip, en caso de cualquier percance. Del dueño de la mascota se requiere saber su rut, su nombre, fecha de nacimiento, género, contacto (celular y/o mail) y su edad. Y de los perritos se requiere saber su número de chip, nombre, edad, raza (puede ser más de una) y sexo.
+    \item Además de lo anterior, cada municipalidad debe generar un video comercial asociado a su concurso, del cual se requiere saber su código identificador, duración y los canales donde será transmitido (puede ser más de uno).
+\end{enumerate}
+
+
+\end{document}
