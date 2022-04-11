@@ -1,1 +1,45 @@
+\documentclass[letterpaper]{article}
 
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+
+
+\section{Introducción}
+
+Tras el fin del confinamiento han comenzado nuevamente a surgir nuevas películas y tras esto, nuevos estrenos; para lo cual le han solicitado diseñar el MERE de una base de datos. Los requerimientos de almacenamiento de datos son los siguientes:
+
+Se sabe que en una película (de la cual se conoce su nombre, código, género, duración, idioma y fecha de estreno) participan varios actores, quienes son dirigidos por un grupo de productores, los cuales pueden ser productores asociado (que trabajan algunos meses), ejecutivos (que poseen un número de películas dirigidas), co-productores (que tienen años de experiencia y por lo tanto un número de películas dirigidas) o en línea (que entregan reportes a los productores ejecutivos). De los actores se requiere conocer la cantidad de premios ganados y cantidad de películas en las que ha participado, mientras que de los productores se necesita saber su profesión. Las películas son dirigidas por directores, los cuales a su vez también están encargados de hacer las películas, y de ellos se requiere saber sus años de antigüedad. 
+
+También, tal y como sabemos, las películas son evaluadas por críticos de cine. Cabe destacar que un crítico de cine puede ser un director de cine. De esta forma, una película es proyectada en el cine, pero tal como sabemos existen varios cines, por lo que necesitamos el nombre del cine y su localización. Asimismo, los clientes deben comprar un ticket para ver una película, y de ellos debe conocerse cualquier medio de contacto (teléfono, email, etc.). Cabe destacar que cada vez que haga efectiva la compra se emitirá un ticket del cual es necesario saber fecha, número de ticket, total y medio de pago.
+
+Tome en cuenta que tanto los actores, productores, clientes, directores y los críticos de cine son todos personas de las cuales se requiere saber de manera completa sus nombres (primer nombre, segundo nombre, apellido materno y paterno), fecha de nacimiento y su rut.
+
+\section{Desarrollo (Pauta)}
+
+\section{MER (Pauta)}
+
+\end{document}
