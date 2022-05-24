@@ -2,21 +2,42 @@
 
 -- 1. Muestre la cantidad de personas que cuentan con cada tipo de acreditación, además de su porcentaje con respecto al total de personas.
 
+SELECT *
+FROM PERSONA P
+LEFT JOIN ACREDITACION A ON A.IDAcreditacion=P.IDAcreditacion
+
 -- 2. Se le pide que muestre la cantidad de emprendimientos que hay por rubro.
 
+SELECT *
+FROM PERSONA P
+LEFT JOIN ACREDITACION A ON A.IDAcreditacion=P.IDAcreditacion
+LEFT JOIN EMPRENDIMIENTO E ON E.RUT=P.RUT
+
 -- 3. Muestre un listado de las personas con un nivel educativo medio completo.
+
+SELECT *
+FROM PERSONA P
+LEFT JOIN ACREDITACION A ON A.IDAcreditacion=P.IDAcreditacion
+LEFT JOIN EMPRENDIMIENTO E ON E.RUT=P.RUT
+LEFT JOIN NIVEL_EDUCACION ED ON ED.RUT=P.RUT
 
 /*
 4. Se pide que muestre las dos nacionalidades, de los usuarios nacidos entre 1980 y 1989, que tienen mayor
 representatividad en la plataforma, sin considerar Chile. Para esto genere una lista que contenga la
 nacionalidad junto con su porcentaje de representatividad en relación al total.
 */
-
+SELECT *
+FROM PERSONA P
+WHERE 
 /*
 5. Se requiere conocer cuáles han sido las 10 regiones con más presencia en la plataforma. Para esto, genere una
 tabla que contenga la cantidad de personas por cada región. Considere que los resultados deben estar
 ordenados de forma descendente.
 */
+
+SELECT *
+FROM PERSONA P
+WHERE P.Nacionalidad <> 'Chile'
 
 /*
 6. Se le solicita que muestre la cantidad de personas que no tienen credencial, pero que sí tienen interés en
