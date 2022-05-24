@@ -21,57 +21,70 @@
 
 -- [CONSULTA 1]
 
+
 SELECT L.Nombre AS "TOP 5 Libros"
-FROM ADQUIERE	A
-LEFT JOIN LIBRO	L	ON	A.Codigo=L.Codigo
-WHERE NroBoleta in (
-SELECT NroBoleta
-FROM VENTA
--- WHERE hora >= '14:00' and hora <= '17:00'
-WHERE hora BETWEEN '14:00' and '17:00'
-) 
+FROM ADQUIERE A
+LEFT JOIN LIBRO L ON A.Codigo=L.Codigo
+WHERE NroBoleta in
+    (SELECT NroBoleta
+     FROM VENTA
+     WHERE hora BETWEEN '14:00' AND '17:00' )
 GROUP BY A.Codigo
 ORDER BY SUM(A.Cantidad) DESC
-    LIMIT 5
+LIMIT 5
     
     
 -- [CONSULTA 2]
 
 SELECT C.Rut AS 'RUT CLIENTE'
-FROM ADQUIERE	A
-LEFT JOIN	LIBRO	L	ON	A.Codigo=L.Codigo
-LEFT JOIN	CLIENTE	C	ON	C.Rut=A.Rut
-WHERE L.Nombre = 'Magical Water Plants of the Highland Lochs' AND RIGHT(C.Rut,1) in (8,9)
+FROM ADQUIERE A
+LEFT JOIN LIBRO L ON A.Codigo=L.Codigo
+LEFT JOIN CLIENTE C ON C.Rut=A.Rut
+WHERE L.Nombre = 'Magical Water Plants of the Highland Lochs'
+  AND RIGHT(C.Rut, 1) in (8,
+                          9)
 ORDER BY C.Nombre ASC
 
 -- [CONSULTA 3]
 
-SELECT DISTINCT L.Nombre AS "TOP 10 Libros", (L.PrecioVenta-I.Costo) AS 'MARGEN VENTA'
-FROM ADQUIERE	A
-LEFT JOIN	LIBRO	L	ON	A.Codigo=L.Codigo
-LEFT JOIN	CLIENTE	C	ON	C.Rut=A.Rut
-LEFT JOIN	ITEM	I	ON	I.Codigo=L.Codigo
+SELECT DISTINCT L.Nombre AS "TOP 10 Libros",
+                (L.PrecioVenta-I.Costo) AS 'MARGEN VENTA'
+FROM ADQUIERE A
+LEFT JOIN LIBRO L ON A.Codigo=L.Codigo
+LEFT JOIN CLIENTE C ON C.Rut=A.Rut
+LEFT JOIN ITEM I ON I.Codigo=L.Codigo
 ORDER BY (L.PrecioVenta-I.Costo) DESC
-    LIMIT 10
+LIMIT 10
     
 -- [CONSULTA 4]
-SELECT C.Nombre AS 'CATEGORIA', SUM(A.Cantidad) AS 'CANTIDAD'
-FROM ADQUIERE	A
-LEFT JOIN	LIBRO		L	ON	A.Codigo=L.Codigo
-LEFT JOIN	CLIENTE		Cl	ON	Cl.Rut=A.Rut
-LEFT JOIN	ITEM		I	ON	I.Codigo=L.Codigo
-LEFT JOIN	CATEGORIA	C	ON	C.Identificador=L.IdCategoria
+SELECT C.Nombre AS 'CATEGORIA',
+       SUM(A.Cantidad) AS 'CANTIDAD'
+FROM ADQUIERE A
+LEFT JOIN LIBRO L ON A.Codigo=L.Codigo
+LEFT JOIN CLIENTE Cl ON Cl.Rut=A.Rut
+LEFT JOIN ITEM I ON I.Codigo=L.Codigo
+LEFT JOIN CATEGORIA C ON C.Identificador=L.IdCategoria
 GROUP BY (C.Nombre)
 ORDER BY SUM(A.Cantidad) DESC
 
-
 -- [CONSULTA 5]
 
-SELECT pais AS 'TOP NACIONALIDAD', concat(round((COUNT(*) * 100)/(select count(*) from VENTA),2),'%') as
-'REPRESENTATIVIDAD % COMPRA LIBROS' FROM (
-SELECT DISTINCT NroBoleta, ADQUIERE.RUT, Pais
-FROM ADQUIERE, (SELECT CLIENTE.Rut, Pais FROM CLIENTE) AS NACIONALIDAD
-WHERE ADQUIERE.Rut=NACIONALIDAD.Rut
-) as T1
-GROUP BY pais ORDER BY (COUNT(*) * 100)/(select count(*) from VENTA) DESC
+SELECT pais AS 'TOP NACIONALIDAD',
+       concat(round((COUNT(*) * 100)/
+                      (SELECT count(*)
+                       FROM VENTA), 2), '%') AS 'REPRESENTATIVIDAD % COMPRA LIBROS'
+FROM
+  (SELECT DISTINCT NroBoleta,
+                   ADQUIERE.RUT,
+                   Pais
+   FROM ADQUIERE,
+
+     (SELECT CLIENTE.Rut,
+             Pais
+      FROM CLIENTE) AS NACIONALIDAD
+   WHERE ADQUIERE.Rut=NACIONALIDAD.Rut ) AS T1
+GROUP BY pais
+ORDER BY (COUNT(*) * 100)/
+  (SELECT count(*)
+   FROM VENTA) DESC
 LIMIT 2
