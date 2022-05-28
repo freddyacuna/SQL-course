@@ -1,0 +1,112 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{pdflscape}
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+
+
+\section{Introducción - LIBRERIAFB (FLOURISH AND BLOTTS)}
+
+El desconocido dueño de la librería mágica Flourish and Blotts ha descubierto un curioso invento “Muggle” que promete ayudarlo en su negocio, debido a que los magos son muy reacios al orden.
+
+Obviamente, al ser una librería, lo que se comercializa son los libros a un precio determinado. Estos libros pertenecen a una categoría y cada categoría tiene asignada uno o varios estantes específicos donde se ubican los libros. Es importante almacenar datos sobre el Identificador de la categoría, el nombre y la popularidad de esta (medida en estrellas). Sobre los estantes es necesario saber la capacidad que posee cada uno, es decir, cuántos libros es capaz de almacenar. También necesitamos saber los datos básicos de los libros, como el nombre y autor.
+
+Los clientes -de los que necesitamos saber su Rut, nombre, fecha de nacimiento y país- pueden adquirir variados libros en una venta realizada por el personal de la librería, en la cual debe quedar registrada la cantidad adquirida. Es necesario también almacenar el número de la boleta de dicha venta, la hora y la fecha. Además, se sabe que la tienda posee convenios con ciertos colegios, que otorgan un descuento específico a cada libro de estudio. Dichos libros de estudio deben pertenecer a una lista de libros solicitada por alguna institución para que sea de estudio y reciba el correspondiente descuento. Es importante saber sobre el colegio el nombre específico, la ubicación y el puntaje promedio de OWLs (Ordinary Wizarding Level) por alumno; sobre las listas es necesario almacenar el curso y al año que corresponde. Para hacer efectivo el descuento, la venta debe estar asociada a una lista de libros de estudio.
+
+El personal de la librería cumple dos funciones por horarios definidos: aseo y ventas. Cada empleado posee una hora de inicio y fin de su labor como aseo y como ventas, que es necesario almacenar. Cabe decir que los fines de semana no trabajan y que realizan las mismas funciones en el mismo horario toda la semana (el empleado X será vendedor todos los días de la semana de 9.00 a 14.00 hrs y se dedicará al aseo de 15.00 a 18.00 hrs, por ejemplo).
+
+Otra información relevante sobre los trabajadores es la fecha de ingreso del trabajador a la librería, el sueldo, su Isapre, AFP, nombre y, finalmente, su Rut.
+
+Por último, Flourish and Blotts posee una red de proveedores que, a través de órdenes de compra, facilita todos los ítems necesarios, como son los libros y los estantes para los libros. Sobre dichos ítems es necesario almacenar el código y el costo, además se debe registrar la cantidad de ítems agrupados en cada orden de compra. Estas últimas requieren el almacenamiento de datos como la fecha de emisión, la fecha del recibo de los productos, el estado del pago y el número. Finalmente, se requiere saber el nombre, la evaluación (nota), la ubicación y el rut de la empresa que provee los objetos.
+
+
+
+
+
+
+\begin{landscape}
+\begin{figure}
+\section{MERE}
+    \centering
+    \includegraphics[scale=0.8]{Quiz 08/images/MERE.png}
+    \caption{MERE LIBRERIAFB (FLOURISH AND BLOTTS)
+}
+    \label{pescado organización}
+\end{figure}
+\end{landscape}
+
+
+
+
+\begin{landscape}
+
+\begin{figure}
+\section{MR}
+    \centering
+    \includegraphics[scale=0.7]{Quiz 08/images/MR.png}
+    \caption{MR LIBRERIAFB (FLOURISH AND BLOTTS)
+}
+    \label{pescado organización}
+\end{figure}
+
+\end{landscape}
+
+
+
+\begin{landscape}
+
+\begin{figure}
+\section{Base LIBRERIAFB.sql}
+    \centering
+    \includegraphics[scale=0.5]{Quiz 08/images/bbdd.png}
+    \caption{Diagrama de Base LIBRERIAFB.sql}
+    \label{pescado organización}
+\end{figure}
+ \fillandplacepagenumber
+\end{landscape}
+
+\section{Requerimientos}
+
+\subsection*{Consulta 1}
+Se le solicita mostrar el nombre y el país de aquellos clientes que no pertenecen a Inglaterra y que además su rut empiece con diez millones. Finalmente ordene sus nombres en orden alfabético.
+
+\subsection*{Consulta 2}
+Se le solicita mostrar los libros que tengan un precio mayor al precio promedio de los 10 libros más vendidos independiente de su categoría.
+
+\subsection*{Consulta 3}
+Se le solicita mostrar en orden alfabético el nombre de aquellos vendedores que han realizado más de 20 ventas.
+
+\subsection*{Consulta 4}
+Se le solicita mostrar el nombre de los primeros 20 libros de estudio junto a la cantidad respectiva de descuentos acumulados (Q\_Desc\_Acumulados) que poseen una mayor cantidad de descuento que el promedio de todos los libros de estudio. Muestre los nombres en orden decreciente en relación a su descuento.
+ 
+\subsection*{Consulta 5}
+A partir de la consulta anterior, se le solicita mostrar sólo el nombre de los 10 libros que acumulan una mayor cantidad de descuento y la cantidad de años que han pasado (Años\_Lanzamiento) desde que se lanzó el libro. Finalmente, ordene el nombre de los libros en orden alfabético. (Utilice tablas combinadas)
+
+\subsection*{Consulta 6}
+Se le solicita mostrar el rut de aquellos proveedores que no cataloguen como “seniors”, es decir que no estén dentro de los 3 proveedores que posean la mayor cantidad de órdenes de compra y que su evaluación sea mayor a 2 estrellas. (Utilice tablas combinadas).
+
+\end{document}
