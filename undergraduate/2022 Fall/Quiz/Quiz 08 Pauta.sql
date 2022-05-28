@@ -53,6 +53,20 @@ ORDER BY Nombre ASC
 
 -- [CONSULTA 4 - OPCION A]
 
+SELECT L.Nombre, Descu.Q_Desc_Acumulados
+FROM (
+SELECT CodigoLibro,  SUM(Descuento) AS "Q_Desc_Acumulados"
+FROM LIBRO_DE_ESTUDIO
+GROUP BY CodigoLibro
+) AS Descu
+LEFT JOIN LIBRO L ON L.Codigo= Descu.CodigoLibro
+WHERE Q_Desc_Acumulados > 
+(
+    SELECT  AVG(Descuento) AS "Promedio_Descuento"
+FROM LIBRO_DE_ESTUDIO
+    )
+
+
 -- Consulta 5
 -- A partir de la consulta anterior, se le solicita mostrar sólo el nombre de los 10 libros que acumulan una mayor cantidad de descuento y la cantidad de años que han pasado (Años_Lanzamiento) desde que se lanzó el libro. Finalmente, ordene el nombre de los libros en orden alfabético. (Utilice tablas combinadas)
 
