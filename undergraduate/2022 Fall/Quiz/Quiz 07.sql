@@ -19,7 +19,7 @@
 
 -- PAUTA
 
--- [CONSULTA 1]
+-- [CONSULTA 1 - OPCION A]
 
 
 SELECT L.Nombre AS "TOP 5 Libros"
@@ -31,6 +31,20 @@ WHERE NroBoleta in
      WHERE hora BETWEEN '14:00' AND '17:00' )
 GROUP BY A.Codigo
 ORDER BY SUM(A.Cantidad) DESC
+LIMIT 5
+
+-- [CONSULTA 1 - OPCION B]
+
+SELECT L.Nombre AS NombreLibro,
+       SUM(A.Cantidad) AS CantidadVendida
+FROM ADQUIERE AS A,
+     LIBRO AS L,
+     VENTA AS V
+WHERE L.Codigo=A.Codigo
+  AND V.NroBoleta = A.NroBoleta
+  AND V.Hora BETWEEN "14:00:00" AND "17:00:00"
+GROUP BY L.Nombre
+ORDER BY CantidadVendida DESC
 LIMIT 5
     
     
