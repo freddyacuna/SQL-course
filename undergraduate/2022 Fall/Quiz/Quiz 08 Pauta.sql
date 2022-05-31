@@ -65,6 +65,9 @@ WHERE Q_Desc_Acumulados >
     SELECT  AVG(Descuento) AS "Promedio_Descuento"
 FROM LIBRO_DE_ESTUDIO
     )
+    
+    ORDER BY Q_Desc_Acumulados DESC
+    LIMIT 20
 
 
 -- Consulta 5
@@ -72,7 +75,45 @@ FROM LIBRO_DE_ESTUDIO
 
 -- [CONSULTA 5 - OPCION A]
 
+SELECT Nombre, Años_Lanzamiento
+FROM
+(
+SELECT DISTINCT R.CodigoLibro, LIBRO.Nombre,R.Q_Desc_Acumulados, (YEAR(NOW())-LIBRO_DE_ESTUDIO.Anio) AS Años_Lanzamiento
+FROM LIBRO_DE_ESTUDIO, LIBRO,
+(SELECT CodigoLibro,  SUM(Descuento) AS "Q_Desc_Acumulados"
+FROM LIBRO_DE_ESTUDIO
+GROUP BY CodigoLibro) AS R
+WHERE LIBRO_DE_ESTUDIO.CodigoLibro=R.CodigoLibro AND
+LIBRO.Codigo=R.CodigoLibro
+AND R.Q_Desc_Acumulados > 
+(
+    SELECT  AVG(Descuento) AS "Promedio_Descuento"
+FROM LIBRO_DE_ESTUDIO
+    )
+    
+    ORDER BY R.Q_Desc_Acumulados DESC
+    LIMIT 10
+) AS U
+
+
 -- Consulta 6
 -- Se le solicita mostrar el rut de aquellos proveedores que no cataloguen como “seniors”, es decir que no estén dentro de los 3 proveedores que posean la mayor cantidad de órdenes de compra y que su evaluación sea mayor a 2 estrellas. (Utilice tablas combinadas).
 
 -- [CONSULTA 6 - OPCION A]
+
+SELECT PROVEEDOR.RutEmpresa
+FROM PROVEEDOR
+LEFT JOIN 
+(
+
+
+SELECT ORDEN_DE_COMPRA.RutEmpresa
+FROM ORDEN_DE_COMPRA
+WHERE ORDEN_DE_COMPRA.RutEmpresa IN (SELECT PROVEEDOR.RutEmpresa
+                                                             FROM PROVEEDOR
+                                                             WHERE PROVEEDOR.Evaluacion > "★★")
+
+       GROUP BY ORDEN_DE_COMPRA.RutEmpresa
+ORDER BY COUNT(ORDEN_DE_COMPRA.Numero) DESC
+LIMIT 3 ) SENIOR ON SENIOR.RutEmpresa=PROVEEDOR.RutEmpresa
+WHERE SENIOR.RutEmpresa IS NULL
