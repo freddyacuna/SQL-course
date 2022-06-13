@@ -141,6 +141,14 @@ SELECT EDAD
 FROM PERSONA
 REALIZA
 
+SELECT * -- FechaNac
+FROM PERSONA
+
+SELECT COUNT(*)
+FROM
+REALIZA
+
+
 |EDAD #         | AVG PRACTIVA  |
 |---------------|---------------|
 |Name 1         | #             |
@@ -153,6 +161,13 @@ programa.
 */
 
 
+SELECT EmpresaIL
+FROM INCLUSION_LABORAL
+
+
+
+SELECT EmpresaIL, COUNT(`EmpresaIL`) FROM `INCLUSION_LABORAL` GROUP BY `EmpresaIL`  
+ORDER BY COUNT(`EmpresaIL`)  DESC
 
 /*
 11. Se le solicita mostrar el tipo de ayuda técnica que más veces ha sido prestada. Además, presente dos
@@ -161,23 +176,139 @@ inclusión laboral, o de práctica, indicando con un Sí o un No si la ayuda ha 
 Las columnas deben llamarse “Ayuda IL” y “Ayuda Practica”.
 */
 
+
+SELECT EmpresaIL
+FROM INCLUSION_LABORAL
+
+
+
+SELECT EmpresaIL, COUNT(`EmpresaIL`) FROM `INCLUSION_LABORAL` GROUP BY `EmpresaIL`  
+ORDER BY COUNT(`EmpresaIL`)  DESC
+
 /*
 12. Se requiere conocer los 3 canales de captación existentes más efectivos, considerando todos los años
 presentes en la base de datos.
 */
 
+SELECT CanalCaptacion, count(CanalCaptacion) FROM PERSONA group by CanalCaptacion ORDER BY count(CanalCaptacion) ASC
 
 
 -- REQUERIMIENTOS DE ACTUALIZACIÓN
 /*
 13. Se requiere eliminar de la tabla FICHA_RSH a las fichas que no tengan rango porcentual asociado.
 */
+-- antes (total de 269)
+
+DELETE
+FROM FICHA_RSH
+WHERE RangoPorcentual = ' '
+
+-- ahora (total de 244)
 
 /*
 14. Suponga que se efectúa un cambio en el programa, de manera que, a cada persona que haya realizado más de
 2 prácticas y pertenezca a algún pueblo originario, ahora se le tramitará en seguida su acreditación de pensión
 (si es que no la tenía). Efectúe estos cambios en la base de datos.
 */
+
+-- Se tiene que total de 391, han realizado IDPráctica
+
+-- total de 339 personas (RUT) han realizado al menos 1 práctica.
+
+SELECT RUT, COUNT(RUT) FROM `REALIZA`
+GROUP BY RUT  
+ORDER BY COUNT(RUT)  DESC
+
+-- (total de 3) personas han realizado al más de 2 prácticas
+SELECT RUT FROM ( SELECT RUT, COUNT(RUT) AS NPRACTICA FROM `REALIZA` GROUP BY RUT ) AS NPR WHERE NPRACTICA >2
+
+-- Agrego criterio ed pueblo originario
+
+SELECT *
+FROM   PERSONA
+WHERE  IDAcreditacion in  (1,2)
+       AND PuebloOriginario IS NOT NULL
+       AND RUT IN(SELECT RUT
+                  FROM   (SELECT RUT,
+                                 Count(RUT) AS NPRACTICA
+                          FROM   REALIZA
+                          GROUP  BY RUT) AS NPR
+                  WHERE  NPRACTICA > 2) 
+-- Cambiar IDAcreditacion
+IDAcreditacion 1  -> 3
+IDAcreditación 2 -> 4
+
+------
+
+
+
+
+
+
+UPDATE `PERSONA`
+SET PERSONA.IDAcreditacion = IF(PERSONA.IDAcreditacion=1,3,4)
+
+
+WHERE PERSONA.RUT IN (
+SELECT RUT
+FROM   PERSONA
+WHERE  IDAcreditacion in  (1,2)
+       AND PuebloOriginario IS NOT NULL
+       AND RUT IN(SELECT RUT
+                  FROM   (SELECT RUT,
+                                 Count(RUT) AS NPRACTICA
+                          FROM   REALIZA
+                          GROUP  BY RUT) AS NPR
+                  WHERE  NPRACTICA > 2)
+)
+
+
+CASE
+    WHEN PERSONA.IDAcreditacion = 1 THEN 3
+    ELSE 4
+END
+
+
+
+
+
+
+
+
+
+
+SELECT RUT, Quantity,
+CASE
+    WHEN IDAcreditacion = 1 THEN 3
+    ELSE 4
+END
+FROM PERSONA;
+
+
+
+
+| IDAcreditacion    | señalC    | señalP  |
+|-------------------|-----------|---------|
+|         1         |   0       |     0   |
+|         2         |   1       |     0   |
+|         3         |   0       |     1   |
+|         4         |   1       |     1   |
+
+
+
+--correcto
+
+UPDATE `PERSONA`
+SET PERSONA.IDAcreditacion = IF(PERSONA.IDAcreditacion=1,3,4)
+
+
+WHERE IDAcreditacion in  (1,2) AND PuebloOriginario IS NOT NULL AND 
+RUT IN(SELECT RUT
+                  FROM   (SELECT RUT,
+                                 Count(RUT) AS NPRACTICA
+                          FROM   REALIZA
+                          GROUP  BY RUT) AS NPR
+                  WHERE  NPRACTICA > 2)
 
 /*
 
@@ -189,10 +320,52 @@ ingresados, él le pide a usted que agregue los siguientes datos en la tabla pro
 2: Tramitando Credencial.
 */
 
+| IDAcreditacion    | señalC    | señalP  |
+|-------------------|-----------|---------|
+|         1         |   0       |     0   |
+|         2         |   1       |     0   |
+|         *         |   2       |     0   |
+|         3         |   0       |     1   |
+|         *         |   0       |     2   |
+|         4         |   1       |     1   |
+|         *         |   1       |     2   |
+|         *         |   2       |     1   |
+|         *         |   2       |     2   |
+
+INSERT INTO ACREDITACION VALUES (5, 2,0)
+;
+INSERT INTO ACREDITACION VALUES (6, 0,2)
+;
+INSERT INTO ACREDITACION VALUES (7, 1,2)
+;
+INSERT INTO ACREDITACION VALUES (8, 2,1)
+;
+INSERT INTO ACREDITACION VALUES (9, 2,2)
+
+
+
 /*
 16. Agregue a la tabla PERSONA un atributo llamado “Candidato”, el cual valdrá 1 si es que la persona tiene
 ambas acreditaciones, está en el 40% más vulnerable, y cuenta con postgrado.
 */
+
+
+
+ALTER TABLE PERSONA ADD Candidato INT(1) DEFAULT 0;
+UPDATE PERSONA
+SET PERSONA.Candidato = 1
+where PERSONA.RUT in (
+SELECT RUT FROM `POSTGRADO`  
+WHERE Ultimocurso IS NOT NULL
+) AND IDAcreditacion = 4 AND
+ NroRSH IN (SELECT NroRSH FROM `FICHA_RSH` WHERE RangoPorcentual = '0-40%')
+            
+            --- consulta
+
+SELECT *
+FROM PERSONA
+WHERE IDAcreditacion = 4 and NroRSH IN (SELECT NroRSH FROM `FICHA_RSH` WHERE RangoPorcentual = '0-40%') and RUT IN (SELECT RUT FROM `POSTGRADO`  
+WHERE Ultimocurso IS NOT NULL)
 
 /*
 17. Duplique la tabla INCLUSION_LABORAL, generando una nueva tabla llamada
@@ -200,3 +373,15 @@ ambas acreditaciones, está en el 40% más vulnerable, y cuenta con postgrado.
 los datos del año 2021, aunque esta nueva tabla debe decir 2022 en vez de 2021, en el atributo
 correspondiente.
 */
+
+
+
+CREATE TABLE INCLUSION_LABORAL2022 (SELECT `NumeroIL`, `EmpresaIL`, `TipoCargo`, `EntradaSol`, `FechaInicContrato`, `FechaTermContrato`, `TipoContrato`, `RegionIL`, `Permanencia`, `NotaAdicional`, `RUT`, 2022 AS `AñoIL`
+FROM INCLUSION_LABORAL
+WHERE AñoIL = 2021);
+ALTER TABLE `INCLUSION_LABORAL2022` ADD PRIMARY KEY (`NumeroIL`), ADD KEY `RUT` (`RUT`);
+ALTER TABLE `INCLUSION_LABORAL2022` ADD CONSTRAINT `INCLUSION_LABORAL2022_ibfk_1` FOREIGN KEY (`RUT`) REFERENCES `PERSONA` (`RUT`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
+
