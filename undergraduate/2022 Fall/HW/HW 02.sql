@@ -11,6 +11,42 @@ LEFT JOIN ACREDITACION A ON A.IDAcreditacion=P.IDAcreditacion
 |SeñalC            |  # | % |
 |SeñalP            |  # | % |
 
+SELECT T1.`Tipo Acreditacion`,
+       CONCAT(TRUNCATE((T1.Cantidad/T2.TOTAL)*100, 2), "%") AS Porcentaje
+FROM
+  (SELECT PERSONA.IDAcreditacion AS `Tipo Acreditacion`,
+          COUNT(PERSONA.RUT) AS Cantidad
+   FROM PERSONA
+   GROUP BY PERSONA.IDAcreditacion) AS T1,
+
+  (SELECT COUNT(PERSONA.RUT) AS TOTAL
+   FROM PERSONA) AS T2
+WHERE T1.`Tipo Acreditacion` IS NOT NULL  
+ORDER BY `T1`.`Tipo Acreditacion` ASC
+
+
+
+------------Correcta
+
+SELECT 
+CASE
+    WHEN T1.`TAcreditacion` = 2 THEN 'Credencial'
+    WHEN T1.`TAcreditacion` = 3 THEN 'Pensión'
+    ELSE 'Ambas'
+END AS `Tipo Acreditación`, T1.Cantidad,
+       CONCAT(TRUNCATE((T1.Cantidad/T2.TOTAL)*100, 2), "%") AS Porcentaje
+FROM
+  (SELECT PERSONA.IDAcreditacion AS `TAcreditacion`,
+          COUNT(PERSONA.RUT) AS Cantidad
+   FROM PERSONA
+   GROUP BY PERSONA.IDAcreditacion) AS T1,
+
+  (SELECT COUNT(PERSONA.RUT) AS TOTAL
+   FROM PERSONA) AS T2
+WHERE T1.`TAcreditacion` IN (2,3,4)
+ORDER BY `T1`.`TAcreditacion` ASC
+
+
 -- 2. Se le pide que muestre la cantidad de emprendimientos que hay por rubro.
 
 SELECT *
@@ -24,6 +60,16 @@ LEFT JOIN EMPRENDIMIENTO E ON E.RUT=P.RUT
 |2          |  # |
 |...        |  # |
 
+------------Correcta
+
+SELECT RubroE AS RUBRO, COUNT(RubroE) AS `Q Emprendimientos`
+FROM PERSONA P
+LEFT JOIN EMPRENDIMIENTO E ON E.RUT=P.RUT
+WHERE RubroE IS NOT NULL
+GROUP BY RubroE  
+ORDER BY COUNT(RubroE)  DESC
+
+
 -- 3. Muestre un listado de las personas con un nivel educativo medio completo.
 
 SELECT *
@@ -31,6 +77,15 @@ FROM PERSONA P
 LEFT JOIN ACREDITACION A ON A.IDAcreditacion=P.IDAcreditacion
 LEFT JOIN EMPRENDIMIENTO E ON E.RUT=P.RUT
 LEFT JOIN NIVEL_EDUCACION ED ON ED.RUT=P.RUT
+
+-----------Correcta
+
+SELECT P.RUT, Nombre
+FROM PERSONA P
+LEFT JOIN ACREDITACION A ON A.IDAcreditacion=P.IDAcreditacion
+LEFT JOIN EMPRENDIMIENTO E ON E.RUT=P.RUT
+LEFT JOIN NIVEL_EDUCACION ED ON ED.RUT=P.RUT
+WHERE Completitud in ('completo','completa') and SenalM=1
 
 -- NIVEL_EDUCACION (IDNivel, Completitud, RUT, SenalB, SenalT, TituloProfesionT, SenalM, SenalU, TituloProfesionU)
 
@@ -51,12 +106,35 @@ SELECT * -- Nacionalidad
 FROM PERSONA P
 WHERE FechaNac 
 WHERE P.Nacionalidad <> 'Chile'
+SELECT year(`FechaNac`) FROM `PERSONA`
+
 
 | Nacionalidad   |  RANK % Representación |
 |----------------|------------------------|
 | Nacionalidad 1 |    1er %               |
 | Nacionalidad 2 |    2do %               |
 
+SELECT * FROM `PERSONA`
+WHERE  year(`FechaNac`)>=1980 and year(`FechaNac`)<=1989
+AND Nacionalidad <> 'Chile' 
+
+---- CORRECTO
+
+SELECT T1.`Tipo Nacionalidad`,
+       CONCAT(TRUNCATE((T1.Cantidad/T2.TOTAL)*100, 2), "%") AS Porcentaje
+FROM
+  (SELECT PERSONA.Nacionalidad AS `Tipo Nacionalidad`,
+          COUNT(PERSONA.RUT) AS Cantidad
+   FROM PERSONA
+   WHERE  year(`FechaNac`)>=1980 and year(`FechaNac`)<=1989
+       AND Nacionalidad <> 'Chile'
+   GROUP BY PERSONA.Nacionalidad) AS T1,
+
+  (SELECT COUNT(PERSONA.RUT) AS TOTAL
+   FROM PERSONA) AS T2
+WHERE T1.`Tipo Nacionalidad` IS NOT NULL  
+ORDER BY `Porcentaje`  DESC
+LIMIT 2
 
 /*
 5. Se requiere conocer cuáles han sido las 10 regiones con más presencia en la plataforma. Para esto, genere una
@@ -75,16 +153,25 @@ FROM PERSONA P
 |R2          |  # |
 |...         |  # |
 
+-----CORRECTO
+SELECT Region, COUNT(Region) AS `Q de Personas`
+FROM PERSONA P
+WHERE Region IS NOT NULL
+GROUP BY Region  
+ORDER BY COUNT(Region)  DESC
+LIMIT 10
+
 /*
 6. Se le solicita que muestre la cantidad de personas que no tienen credencial, pero que sí tienen interés en
 conseguirla, junto a su rango porcentual del registro social de hogares.
 */
 
-SELECT * --Region, InteresCredencial
+SELECT RangoPorcentual, COUNT(RangoPorcentual)
 FROM PERSONA P
-
-ACREDITACION 
-IDAcreditacion in (1,3)
+LEFT JOIN ACREDITACION A ON A.IDAcreditacion=P.IDAcreditacion
+LEFT JOIN FICHA_RSH B ON A.NroRSH=P.NroRSH
+WHERE IDAcreditacion in (1,3) and InteresCredencial = 'SI'
+GROUP BY RangoPorcentual
 
 |RSH         | N  |
 |------------|----|
@@ -95,7 +182,14 @@ IDAcreditacion in (1,3)
 |71%-80%     |
 |81%-90%     |
 
+---CORRECTA
 
+SELECT RangoPorcentual, COUNT(RangoPorcentual) AS `Q personas sin Credencial`
+FROM PERSONA P
+LEFT JOIN ACREDITACION A ON A.IDAcreditacion=P.IDAcreditacion
+LEFT JOIN FICHA_RSH B ON B.NroRSH=P.NroRSH
+WHERE A.IDAcreditacion in (1,3) and InteresCredencial = 'SI' AND RangoPorcentual IS NOT NULL AND RangoPorcentual <> ''
+GROUP BY RangoPorcentual
 
 /*
 7. Se solicita mostrar el nombre y la edad (en años) de las personas que han realizado un postgrado y han
