@@ -207,6 +207,13 @@ SE_PROPORCIONA
 |---------------|-------|
 |Name 1         | #     |
 
+
+--- CORRECTO
+
+SELECT Nombre, YEAR(NOW())- YEAR(FechaNac) AS EDAD FROM PERSONA PE LEFT JOIN POSTGRADO PO ON PE.RUT = PO.RUT LEFT JOIN SE_PROPORCIONA PRO ON PRO.RUT = PO.RUT
+WHERE IDPG IS NOT NULL AND Ultimocurso IS NOT NULL AND IDAyudaT IS NOT NULL
+
+
 /*
 8. Se requiere conocer el nombre de la persona con mayor antigüedad lograda en el programa de inclusión
 laboral, además de si tiene experiencia en relatoría o no.
@@ -225,6 +232,20 @@ FechaTermContrato
 
 FICHA_LABORAL
 ExpRelatoria <> NULL
+
+--YEAR(NOW())- YEAR(FechaNac)
+
+SELECT Nombre, 
+CASE
+    WHEN FechTermContrato = NULL THEN YEAR(NOW())- YEAR(FechaNac)
+    ELSE YEAR(NOW())- YEAR(FechaNac)
+END AS EDAD 
+FROM PERSONA PE 
+LEFT JOIN POSTGRADO PO ON PE.RUT = PO.RUT 
+LEFT JOIN SE_PROPORCIONA PRO ON PRO.RUT = PO.RUT
+LEFT JOIN `INCLUSION LABORAL` ILAB ON ILAB.RUT = PO.RUT
+LEFT JOIN FICHA_LABORAL FLab ON FLab.RUT = FLab.RUT
+WHERE ExpRelatoria <> NULL
 
 /*
 9. Se requiere conocer la cantidad de prácticas promedio de las personas por edad. Para esto, genere una tabla
