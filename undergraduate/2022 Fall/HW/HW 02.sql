@@ -268,6 +268,22 @@ REALIZA
 |---------------|---------------|
 |Name 1         | #             |
 
+SELECT id, pass, AVG(val) AS val_1 
+FROM data_r1 
+GROUP BY id, pass;
+
+SELECT * 
+FROM PERSONA P
+LEFT JOIN REALIZA R ON R.RUT=P.RUT
+WHERE IDPRACTICA IS NOT NULL
+
+
+SELECT  YEAR(NOW())- YEAR(FechaNac) AS EDAD, AVG(IDPractica) AS 'PROMEDIO PRACTICA'
+FROM PERSONA P
+LEFT JOIN REALIZA R ON R.RUT=P.RUT
+WHERE IDPRACTICA IS NOT NULL AND YEAR(NOW())- YEAR(FechaNac) <>0
+GROUP BY YEAR(NOW())- YEAR(FechaNac)
+
 
 /*
 10. Se requiere conocer cuál fue la empresa con mayor participación en el programa de inclusión laboral. Para
@@ -281,7 +297,7 @@ FROM INCLUSION_LABORAL
 
 
 
-SELECT EmpresaIL, COUNT(`EmpresaIL`) FROM `INCLUSION_LABORAL` GROUP BY `EmpresaIL`  
+SELECT EmpresaIL, COUNT(`EmpresaIL`) AS 'N Participación' FROM `INCLUSION_LABORAL` GROUP BY `EmpresaIL`  
 ORDER BY COUNT(`EmpresaIL`)  DESC
 
 /*
@@ -292,13 +308,6 @@ Las columnas deben llamarse “Ayuda IL” y “Ayuda Practica”.
 */
 
 
-SELECT EmpresaIL
-FROM INCLUSION_LABORAL
-
-
-
-SELECT EmpresaIL, COUNT(`EmpresaIL`) FROM `INCLUSION_LABORAL` GROUP BY `EmpresaIL`  
-ORDER BY COUNT(`EmpresaIL`)  DESC
 
 /*
 12. Se requiere conocer los 3 canales de captación existentes más efectivos, considerando todos los años
