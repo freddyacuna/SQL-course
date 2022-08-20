@@ -1,0 +1,67 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+
+\section{OBJETIVOS DELAPRENDIZAJE}
+
+\begin{itemize}
+    \item Diseñar un Modelo Entidad Relación Extendido (MERE) de una base de datos.
+    \item Derivar su respectivo Diagrama del Esquema del Modelo Relacional (MR).
+    \item Implementar dicho modelo e introducir datos en el ambiente MySQL
+\end{itemize}
+
+
+\section{INSTRUCCIONES GENERALES}
+
+\begin{itemize}
+    \item El diseño del MERE debe ser presentado en una sola página con orientación horizontal. TODOS los elementos deben poder leerse claramente.
+    \item El Diagrama del Esquema del MR debe utilizar toda la plana de una sola hoja, con orientación vertical, espacio suficiente entre tablas para que las relaciones de integridad referencial (flechas) se visualicen claramente y diferencien una de otra. Se recomienda utilizar colores distintos en las líneas y que estas no se interpongan unas con otras.
+    \item Tanto el MERE y MR, deben ser diseñados con \Latex.
+    \item Para la implementación de la Base de Datos en MySQL, incluya el ingreso de al menos 3 registros para cada tabla (aunque para ello, seguramente algunas otras tablas tendrán que introducir más registros). Esto debe ser congruente con la estructura de la base de datos que usted implemente; es decir, se deben utilizar todos los datos de cada entidad al momento de ser relacionados con otros, al menos una vez.
+    \item Este trabajo debe ser resuelto de forma INDIVIDUAL, y todos los supuestos que usted ha de incluir no pueden reorientar la intención del enunciado, ni desobedecer a las condiciones que se expliciten.
+    \item Se descontarán puntos en caso de que no se cumpla la nomenclatura enseñada en clases y en ayudantías para los modelos y la implementación. Asimismo, los datos introducidos en la Base de Datos implementada en MySQL que no tengan relación entre las tablas, o bien sean sin sentido no serán considerados para asignar puntaje.
+
+\end{itemize}
+
+\section{DESCRIPCIÓN DEL REQUERIMIENTO}
+\subsection{SISTEMA DE SALUD Y VACUNACIÓN}
+
+Desde el 11 de marzo de 2020, la propagación del COVID-19 es oficialmente una pandemia, tras la declaración de la Organización Mundial de la Salud (OMS), pero esta no fue la primera ni la última de este tipo de enfermedades, según expertos. Luego de toda la situación vivida desde ese año, se hizo más común y repetitivo el tema de discusión de las enfermedades y la vacunación, logrando que gran parte de la población esté al tanto de la información con mayor atención que en el pasado, y generando también distintas opiniones en cuanto a esto. Para disminuir la propagación del virus, en diciembre de 2020 se comenzó en Chile con la vacunación en distintos puntos del territorio, dando pie a la batalla contra esta enfermedad. Dada la gran carga de datos que todo esto implica en el sistema de salud, es que se requiere de su asesoría para gestionar de manera más eficiente estos grandes volúmenes de información. Para lograr esto, se le pide diseñar una base de datos con la información relevante de su funcionamiento, generando un MERE apropiado, derivando su respectivo MR, y finalmente modelando las tablas en el ambiente MySQL, para lo cual se provee la siguiente información:
+
+Debido al contexto señalado, se necesita llevar un registro de las enfermedades que van llegando al país, con su nombre, sus síntomas, su vía de transmisión de contagio, cantidad de casos confirmados, cantidad de casos activos y cantidad de recuperados, además, es de relevancia saber las hospitalizaciones llevadas a cabo por la enfermedad y la cantidad de fallecidos por ella. Con el fin de estancar la propagación, debido a la alarmante situación que se vivió con las muertes y la situación del sistema de salud, se tienen vacunas, de las cuales se conoce su nombre y la enfermedad que busca estancar, las cuales se distribuyen en ciertos puntos de vacunación, los cuales únicamente se generan si existen las vacunas necesarias y de los que se necesita saber el ID, la dirección, el tipo de establecimiento que es (colegio, gimnasio, cesfam, hospital, etc.) y los tipos de dosis que se les distribuye diariamente junto con las cantidades de cada una. Junto con lo anterior, se sabe que las vacunas poseen una certificación, la cual puede ser nacional o extranjera.
+
+Asimismo, es en los puntos mencionados donde se hace la inoculación de las personas, de las cuales se deben almacenar datos como su nombre, rut, fecha de nacimiento, edad, nacionalidad, género, teléfono de contacto, otro teléfono (en caso de emergencias), y dirección de correo electrónico. Además, se deben tener registros de su domicilio, indicando las direcciones, comunas y regiones de estas personas y la previsión de salud a la que pertenece (Fonasa, Isapre). Es importante mencionar que, al presentarse las personas en los puntos de vacunación, se debe conocer la vacuna administrada y cuál dosis es, así como es relevante saber que las personas, independiente de si poseen vacunas administradas, pueden contagiarse de las enfermedades descritas, inclusive en más de una ocasión, y el contagio es mayormente a través del contacto con otras personas, es decir, las personas son contagiadas por otras personas. 
+
+Toda la situación se ha podido sobrellevar con apoyo del personal médico, los cuales son parte de las personas del territorio. Cuando las enfermedades se vuelven difíciles de sobrellevar en los domicilios, las personas se pueden presentar en centros de salud, de los que se debe llevar registro del ID, su dirección, previsión de salud que trata y nombre. Tanto en estos centros como en los puntos de vacunación, trabaja personal médico, de los que es necesario saber la institución en la que estudió, cuándo obtuvo su título y cuánto tiempo ha ejercido en su trabajo actual, y que se sabe que pueden ser médicos, enfermeros u otros funcionarios.
+
+Tal como se sabe, cuando se quiere conocer si algún individuo ha sido contagiado, este puede diagnosticarse a través de alguna prueba de la enfermedad, señalando el resultado y la prueba realizada, sabiendo que solo puede ser realizada por enfermeros, o a través de un diagnóstico médico, señalando el diagnóstico y el instituto al que asistió, sabiendo que este diagnóstico sólo podrá ser generado por un médico. 
+
+Finalmente, tal como se mencionó, se sabe que las personas pueden ser contagiadas mayormente a través del contacto con otras personas, por lo que es relevante rastrear los casos y registrar, cada vez que haya un contagio, quién pudo haberlo contagiado (pariente, amigos, trabajo, desconocido, etc.), sus síntomas, fecha en que comenzó con la sintomatología o de cuando corroboró su situación, además del RUT para la base de datos. 
+
+
+\end{document}
