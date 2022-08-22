@@ -1,0 +1,97 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+\section{Pregunta 1 - MERE}
+
+Diseñe el MERE para el siguiente requerimiento:
+
+El Emperador de una galaxia muy lejana necesita organizar sus misiones y
+recursos que utiliza en ellas. Debido a esto, le solicita implementar una base de
+datos que contenga toda la información relevante respecto a los temas críticos
+en las misiones.
+Primero, se sabe que las misiones poseen un código específico y un nombre.
+Estas suelen ser de dos tipos: de conquista, que necesitan almacenar la
+urgencia, y de destrucción, en las que se utilizará la estrella de la muerte para
+completarla. Sobre la estrella de la muerte, necesitamos almacenar el nombre,
+código único, el tiempo de disparo promedio, así como también la fecha y hora
+exacta en que inicia y finaliza la operación de disparo. Adicionalmente, esta
+puede terminar en tres estados: completada, en construcción, o inoperable. En
+caso de estar completada, se debe almacenar la cantidad de gente que trabajó
+en ella y la duración de esta construcción, además de la galaxia en la que
+estará ubicada. Si está en construcción, se requiere la fecha de inicio del
+proyecto y los recursos utilizados, tanto personas como dinero invertido.
+Finalmente, en caso de estar inoperable, es necesario almacenar el nombre del
+emperador y la fecha exacta en que se declaró como tal.
+Para la misión de conquista se requiere el uso de las flotas disponibles que
+poseen un número que las identifica y una potencia asociada. Dichas flotas
+están compuestas por distintos tipos de naves: de soporte, destructores
+estelares y cazas estelares. Es necesario almacenar el tamaño de las naves de
+soporte, la capacidad de los destructores y el modelo del caza estelar. Cabe
+decir, que los destructores alojan muchas naves cazas estelares, las cuales son
+conducidas por un piloto. Un stormtrooper es un soldado perteneciente al
+Imperio, el cual puede desarrollar variadas funciones: como ya se dijo puede
+ser piloto y además, ingeniero o soldado de asalto. Sobre los stormtrooper
+necesitamos saber la unidad a la que pertenece, el rango y su Id. Además,
+debemos saber a la flota a la que pertenece.
+Finalmente, cada piloto debe proteger a la estrella de la muerte de cualquier
+amenaza, por lo que siempre que exista una batalla se debe registrar la
+cantidad de naves que destruyó el piloto para defender a la estrella de la
+muerte.
+
+\section{Pregunta 2 - MR}
+
+Derive el diagrama del esquema del Modelo Relacional MR a partir del siguiente MERE:
+
+\section{Pregunta 3 - SQL}
+
+Dado el MERE y MR de la base de datos LIBRERIAFB de MySQL, escriba
+consultas de recuperación y/o actualización en SQL:
+
+P3. a) Mostrar la cantidad total comprada de cada ítem, en orden
+descendente.
+
+P3. b) Mostrar la cantidad total comprada de los siete ítems más
+adquiridos en la base de datos, indicando si es libro o estante.
+
+
+P3. c) Con el fin de poder visualizar fácilmente los datos, se pide agregar
+los siguientes atributos a la tabla ADQUIERE: nombre de los clientes,
+nombre del vendedor y nombre del libro adquirido en la venta.
+Adicionalmente, inserte los datos respectivos a estos nuevo atributos.
+
+
+P3. d) Se solicita mostrar un listado de las transacciones realizadas por la
+empresa, ya sean boletas u órdenes de compras, junto a la cantidad de
+productos que fueron gestionados en cada una de ellas. Sin embargo,
+estas deben ser únicamente transacciones cuya utilidad del producto
+supera los $5.000
+
+
+
+\section{Pregunta 4 - Normalización}
+\end{document}
