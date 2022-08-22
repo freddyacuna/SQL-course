@@ -1,0 +1,78 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+
+\section{Pregunta 1}
+
+A estas alturas del año, la gran mayoría (si es que no todas) las universidades ya han pasado por la etapa de la matrícula de sus alumnos, por lo que, con fines de estudio, se hace una recopilación de información en base a esto.
+
+Principalmente, se sabe que cada alumno, el cual se identifica con su RUT y se conoce su nombre, fecha de nacimiento y edad,  paga su matrícula en una universidad con un nombre único y una dirección específica, la que se compone de la calle y el número. Es de conocimiento público que depende de la universidad cuánto es el desembolso de la matrícula, por lo que es necesario conocer el monto de ella junto con el ID correspondiente, además de la fecha en la cual se realizó el  pago.
+
+Por último, al comenzar las clases, se informa que, para ciertos fines universitarios, es necesario elegir un delegado estudiantil, el cual lo escogen sus pares, es decir, los mismos estudiantes.
+ 
+ 
+\section{Pregunta 2}
+
+En el mundo de los cómics de superhéroes podemos ver patrones que se repiten de manera usual, como lo son los equipos de héroes que luchan por mantener la paz y tranquilidad en sus ciudades, lo que los lleva a tener constantes luchas con diferentes villanos y salvar a individuos. Se requiere recopilar información referida a la estructura de los personajes que componen un cómic.
+
+\begin{enumerate}
+
+\item	En los equipos de superhéroes siempre se puede distinguir a un líder, quien motiva y dirige a sus compañeros de lucha para sacar lo mejor de ellos, los héroes se pueden conocer por su seudónimo, lugar de origen, tipo de traje, su variedad de habilidades, historia de origen, fecha de nacimiento y edad, también se sabe que algunos superhéroes tienen vehículos personales, los que fueron construidos únicamente para ellos y de los cuales se conoce su código, tipo y color. Cada equipo siempre se verá compuesto de al menos 2 super héroes, estos se reconocen siempre por su nombre único y la dirección en donde se encuentra su lugar de encuentro.
+ 
+ 
+\item	Cada equipo suele tener un set de villanos principales, con los cuales tienen batallas épicas y de gran nivel de tensión, de ellos se conoce su seudónimo, tipo de traje e historia trágica, los villanos se enfrentan sólo a un equipo. Los superhéroes siempre trabajan en proteger a la raza humana de los villanos. Acá los humanos juegan un rol secundario, de modo que solo nos interesa conocer su género y número identificador.
+ 
+
+\item	Asimismo, se conoce que la lucha entre los equipos y los villanos se genera en una fecha específica y una hora concreta.
+ 
+
+\item	Por último, se sabe que hay solo dos tipos de villanos: los que poseen superpoderes, de los cuales se necesita saber su poder, y los que no.
+ 
+\end{enumerate}
+ 
+\section{Pregunta 3}
+
+Una biblioteca está con problemas para organizar sus implementos necesarios para su correcto funcionamiento, por lo que le solicitan a usted la ayuda necesaria. Se sabe que existen distintos estantes, de los cuales se requiere saber su código y capacidad. Los estantes almacenan distintas publicaciones que se distinguen a través de un código y un año de publicación. Entre las publicaciones podemos encontrar libros, revistas y artículos. Los libros se caracterizan por tener un autor y una editorial, de las revistas se sabe que están compuestas de artículos, los cuales poseen un autor y una universidad respectiva. 
+
+La biblioteca posee distintos trabajadores (de los que se necesita almacenar su Rut, nombre, fecha de nacimiento, edad y salario) los cuales pueden ser trabajadores de compra de libros (que se almacena la cantidad de compras que han hecho) o de orden de estantes (que se almacena la cantidad de órdenes). Cabe destacar que cuando hay poco personal, un mismo trabajador puede ser de ambos tipos. 
+
+Para realizar la compra de libros se emiten órdenes de compra (que poseen un código específico), para cada proveedor, de los que se requiere almacenar su Rut. Finalmente, el proveedor facilita los libros.
+
+\begin{enumerate}
+
+\item	Se sabe que existen distintos estantes, de los cuales se requiere saber su código y capacidad. Los estantes almacenan distintas publicaciones que se distinguen a través de un código y un año de publicación. Entre las publicaciones podemos encontrar libros, revistas y artículos. Los libros se caracterizan por tener un autor y una editorial, de las revistas se sabe que están compuestas de artículos, los cuales poseen un autor y una universidad respectiva.
+ 
+
+\item	La biblioteca posee distintos trabajadores (de los que se necesita almacenar su Rut, nombre, fecha de nacimiento, edad y salario) los cuales pueden ser trabajadores de compra de libros (que se almacena la cantidad de compras que han hecho) o de orden de estantes (que se almacena la cantidad de órdenes).
+ 
+
+\item	Para que los trabajadores de compra puedan realizar la compra de libros se emiten órdenes de compra (que poseen un código específico) para cada proveedor, de los que se requiere almacenar su Rut. Finalmente, el proveedor facilita los libros
+ 
+\end{enumerate}
+
+\end{document}
