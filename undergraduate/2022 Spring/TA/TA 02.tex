@@ -1,0 +1,60 @@
+\documentclass[letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{lmodern}
+
+% Entity-relationsip package
+\usepackage{tikz-er2}
+% Include tikz library for more control over positioning
+\usetikzlibrary{positioning}
+% Styling for entities, attributes, and relationships
+\tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
+\tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
+\tikzstyle{every relationship} = [draw=orange!50!black!100, fill=orange!40]
+\tikzstyle{every superclas} = [top color=white, bottom color=red!20, 
+                         draw=red!50!black!100]
+
+\usepackage{parskip}
+
+
+\pagestyle{empty}
+
+
+\begin{document}
+\section{Pregunta 1}
+
+Debido a toda la situación de la pandemia, se produjo un alza en el uso de redes sociales por parte de los y las jóvenes, incluyendo la app TikTok. Dado el gran impacto que ha tenido esta red social este último tiempo, se requiere recopilar cierta información, principalmente referida a los usuarios más famosos, los llamados TikTokers Feimus.
+
+\begin{enumerate}
+
+\item	De los TikTokers Feimus se requiere conocer su nombre de usuario, edad, género, cantidad de seguidores y la cantidad de likes que poseen en total. Los TikTokers suben videos a la plataforma, de los cuales se requiere saber su ID, cantidad de comentarios, duración y el sonido utilizado.
+ 
+
+\item	Además, los TikTokers Feimus tienen seguidores de su contenido, los cuales a su vez ven los videos que suben. De los seguidores se requiere conocer su ID, su nombre de usuario y la cantidad de cuentas que ellos siguen.
+ 
+
+\item	Por último, los TikTokers Feimus son patrocinados por empresas, las cuales les brindan productos o dinero a cambio de promoción de su negocio. De estas empresas se requiere conocer el rut, el rubro y el tipo de pago que le ofrece al TikToker (dinero o productos). Cabe destacar que las empresas solo pueden patrocinar a un TikToker Feimus, con el fin de evitar malentendidos y rivalidades dentro de la red social.
+ 
+\end{enumerate}
+
+\section{Pregunta 2}
+
+Debido a la misma situación mencionada anteriormente, se generó un incremento en el consumo de servicios de streaming, especialmente en servicios de video. Es por esto que se requiere de su asesoría para modelar una base de datos con los elementos más esenciales para las distintas compañías de streaming.
+
+
+\begin{enumerate}
+
+\item	Se sabe que las distintas compañías poseen un nombre único, fecha de fundación, compuesta por día, mes y año, ubicación de sus instalaciones y un CEO. Las compañías son las encargadas de distribuir contenido, el cual en ocasiones se puede encontrar en distintas plataformas. Cada contenido tiene su número identificador, título, duración, año de lanzamiento, tipo de contenido (película, serie, documental, etc.) y clasificación (PG13, R, etc.).
+
+\item	Las mismas compañías ofrecen distintos planes de suscripción a sus servicios de streaming, los cuales tienen su número identificador, tipo de plan, precio y la característica específica de cada uno.
+
+\item	Finalmente, es normal que diversas figuras del espectáculo, en específico actores, firmen contratos de exclusividad en ciertas compañías (ej: Adam Sandler con Netflix), los cuales al mismo tiempo participan en proyectos distribuidos por las compañías. De estos actores se conoce su DNI, su nombre, fecha de nacimiento, nacionalidad (de la cual se sabe podrían tener más de una), edad y género.
+
+\end{enumerate}
+
+\end{document}
