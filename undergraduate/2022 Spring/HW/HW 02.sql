@@ -4,6 +4,16 @@
 mostrar su porcentaje con respecto al total de personas vacunadas, independiente de la vacuna
 administrada. Asimismo, se pide mostrar los resultados por orden alfabético en base a la vacuna. */
 
+SELECT  T1.Vacuna ,
+        T1.Cantidad_Persona,
+        CONCAT( TRUNCATE((T1.Cantidad_Persona	/T2.Total)*100,2),"%") AS Porcentaje_Personas
+FROM (
+SELECT Vacuna, count(*) AS Cantidad_Persona
+FROM `SE_INOCULA` GROUP BY VACUNA ORDER BY VACUNA ASC
+    ) AS T1,
+(SELECT COUNT(*) AS Total 
+              FROM `SE_INOCULA`) AS T2
+
 -- 2. Se le pide que muestre la cantidad de personas afectadas por enfermedad. */
 
 -- 3. Muestre un listado de los médicos que hayan ejercido por más de 30 años. */
