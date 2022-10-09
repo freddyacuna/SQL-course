@@ -16,7 +16,18 @@ FROM `SE_INOCULA` GROUP BY VACUNA ORDER BY VACUNA ASC
 
 -- 2. Se le pide que muestre la cantidad de personas afectadas por enfermedad. */
 
+SELECT Nombre_E, COUNT(Rut_P) AS Cantidad_Personas
+FROM `CONTAGIA`
+WHERE Nombre_E IS NOT NULL
+GROUP BY Nombre_E
+
 -- 3. Muestre un listado de los médicos que hayan ejercido por más de 30 años. */
+
+SELECT * FROM `PERSONAL_MEDICO`
+WHERE Tiempo_trabajando>=30 AND RUT_PM IN (SELECT * FROM MEDICO)
+-- inconsistencia?
+SELECT DISTINCT PERSONA.Rut_P FROM PERSONA, PERSONAL_MEDICO, MEDICO
+WHERE PERSONA.RUT_PM=MEDICO.RUT_PM AND  PERSONAL_MEDICO.RUT_PM=MEDICO.RUT_PM AND PERSONAL_MEDICO.Tiempo_trabajando>=30
 
 /* 4. Se pide que muestre las dos nacionalidades de mayor representatividad, considerando aquellas personas
 que no vivan en la región metropolitana, y pertenezcan a un rango etario entre 25 y 50 años. Para esto,
