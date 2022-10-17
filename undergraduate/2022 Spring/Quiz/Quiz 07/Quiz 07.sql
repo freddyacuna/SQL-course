@@ -3,6 +3,9 @@
 -- Consulta 1
 -- Se le solicita mostrar el nombre y rut de aquel personal que no pertenece al personal de aseo.
 
+SELECT Nombre, RutPersonal AS Rut FROM `PERSONAL`
+WHERE EsAseo =0
+
 -- Consulta 2
 -- Se le solicita mostrar el nombre de los libros que posean un precio menor al precio promedio de los 10 libros más vendidos. (utilice tabla auxiliar)
 SELECT LIB.Nombre
@@ -54,3 +57,22 @@ WHERE  RutEmpresa NOT IN (SELECT T3.RutEmpresa
 
 -- Consulta 6 
 -- Se le solicita mostrar el rut y la cantidad de compras de aquellos clientes que tengan una edad menor a 50 años y que sean de Escocia o Inglaterra. ( tabla auxiliar)
+
+TIMESTAMPDIFF(YEAR, '1970-02-01', CURDATE()) AS age
+
+
+SELECT CL.Rut,'' AS Cantidad_Compra
+FROM ADQUIERE AS A, CLIENTE AS CL
+WHERE CL.Rut  IN (SELECT C.Rut
+                                                FROM CLIENTE AS C
+                                                WHERE C.Pais IN ("England","Scotland") AND TIMESTAMPDIFF(YEAR, FechaNacimiento, CURDATE())<50) 
+               
+ORDER BY CL.Rut ASC;
+
+
+SELECT C.Nombre AS Nombre_Cliente
+FROM ADQUIERE AS A, CLIENTE AS C
+WHERE C.Rut=A.Rut
+GROUP BY A.Rut
+HAVING COUNT(A.NroBoleta)>=15
+ORDER BY Nombre_Cliente ASC;
