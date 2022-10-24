@@ -29,6 +29,12 @@ FROM (SELECT ITEM.Codigo , COUNT(ITEM.Codigo) AS Cantidad
 Consulta 4
 Muestre el promedio de veces que es requerido un libro por año.*/
 
+SELECT AVG(CONTADOR) AS PROMEDIO
+FROM 
+(SELECT LIBRO_DE_ESTUDIO.CodigoLibro, COUNT(LIBRO_DE_ESTUDIO.Anio) AS CONTADOR
+FROM LIBRO_DE_ESTUDIO
+GROUP BY LIBRO_DE_ESTUDIO.CodigoLibro ) A
+
 /*
 Consulta 5
 Se solicita conocer los nombres de clientes, sus rut respectivos y sus cantidades compradas, por boleta,
@@ -46,3 +52,13 @@ WHERE RutVendedor LIKE "16%" AND MONTH(Fecha)=3
 Consulta 6
 Se le solicita mostrar la cantidad y el costo de venta promedio para los libros que posean un descuento
 acumulado (suma) menor a 1. Formato $###.### CLP.*/
+
+
+SELECT SUM(Total_Libro) AS CANTIDAD, CONCAT('$',FORMAT(AVG(Costo),'###.###.###'),'CLP')  AS COSTO_VENTA 
+FROM (
+SELECT Codigo, SUM(Cantidad) AS Total_Libro FROM `ADQUIERE` GROUP BY Codigo 
+) T1
+LEFT JOIN (
+SELECT * FROM `ITEM` WHERE Codigo IN (SELECT CodigoLibro FROM (SELECT CodigoLibro, SUM(Descuento) AS DESACUM FROM `LIBRO_DE_ESTUDIO` GROUP BY CodigoLibro ) DESCUEN WHERE DESACUM <1)
+    ) T2 ON T1.Codigo= T2.Codigo 
+    WHERE  T2.Codigo IS NOT NULL
