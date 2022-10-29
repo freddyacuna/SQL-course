@@ -73,6 +73,8 @@ ser aquellos 5 que llevan más tiempo trabajando. Además, el nombre de la insti
 
 -- 15. Se requiere eliminar de la tabla PERSONAL_MEDICO a todos aquellos funcionarios que lleven menos de 5 años trabajando.
 
+DELETE FROM PERSONAL_MEDICO WHERE Tiempo_trabajando < 5
+
 /* 16. Se tiene gran preocupación hacia los jóvenes (menores a 25 años) que han contagiado a más de una
 persona de la enfermedad que padecen, por lo que se realizó una campaña 100% exitosa para que todas
 aquellas personas que estén dentro de este grupo y que sean Fonasa se cambien a Isapre. Efectúe este
@@ -91,6 +93,11 @@ RUT_PM Tiempo_trabajando Titulado Institución
 23778599-1 23 19-02-1998 Universidad de Chile
 */
 
+INSERT INTO `PERSONAL_MEDICO` (`RUT_PM`, `Tiempo_trabajando`, `Titulado`, `Institucion`) VALUES
+('27101620-4', 6, '2004-06-23', 'Universidad Mayor'),
+('10924256-K', 18, '2002-07-12', 'Universidad Arturo Prat'),
+('23778599-1', 23, '1998-02-19', 'Universidad de Chile');
+
 /* 18. Agregue a la tabla PERSONAL_MEDICO un atributo llamado “Experiencia”, siendo Mucha Experiencia si está
 dentro del 20% con más experiencia, Experiencia Regular si está en el siguiente 20% y Poca Experiencia si
 no se encuentra en ninguno de los dos anteriores. Sin embargo, si se encuentra en esta última clasificación
@@ -101,3 +108,9 @@ como Experiencia Regular. */
 que debe poseer las mismas características de la tabla original, pero solo los diagnósticos entregados por
 médicos titulados desde el año 2000, aunque en esta nueva tabla se pide que el atributo correspondiente al
 médico debe decir “ID_MedicoNuevo”. */
+
+CREATE TABLE DIAGNOSTICO_MEDICO2
+SELECT ID_D, Diagnostico, Instituto, RUT_PM AS ID_MedicoNuevo 
+        FROM `DIAGNOSTICO_MEDICO` WHERE RUT_PM IN (SELECT RUT_PM FROM `PERSONAL_MEDICO` WHERE YEAR(Titulado)>=2000) ;
+ALTER TABLE DIAGNOSTICO_MEDICO2 ADD PRIMARY KEY (ID_D);
+ALTER TABLE DIAGNOSTICO_MEDICO2 ADD FOREIGN KEY (ID_MedicoNuevo) REFERENCES MEDICO(RUT_PM)
