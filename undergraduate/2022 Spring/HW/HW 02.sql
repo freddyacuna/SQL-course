@@ -41,7 +41,15 @@ resultados deben estar ordenados de forma descendente. */
 /* 6. Se requiere mostrar los puntos de vacunación y su dirección, de aquellos lugares que distribuyan alguna de
 las vacunas contra el COVID-19 y que posean certificación extranjera. */
 
+SELECT * FROM `PUNTO_DE_VACUNACION` PV
+LEFT JOIN (
+SELECT * FROM `VACUNA` WHERE ID_C IN (SELECT * FROM `EXTRANJERA`) AND ENFERMEDAD='COVID-19'
+) V ON V.Nombre_V= PV.Nombre_V
+WHERE V.Nombre_V IS NOT NULL
+
 -- 7. Se solicita mostrar el rut y los años de titulado que tienen los enfermeros que hayan salido de la Universidad Diego Portales. */
+
+SELECT RUT_PM AS RUT , YEAR(NOW())-YEAR(Titulado)  AS ANOS_TITULADO FROM `PERSONAL_MEDICO` WHERE Institucion='Universidad Diego Portales' AND RUT_PM IN (SELECT * FROM `ENFERMERO`)
 
 /* 8. Se requiere mostrar el rut y el tipo de profesión (médico, enfermero, otro) de las dos personas del personal
 médico que se hayan tomado la mayor cantidad de años para comenzar a trabajar luego de su titulación */
@@ -61,13 +69,29 @@ enfermedad, clasificación y Nombre de vacuna. */
 /* 12. Obtenga el promedio de casos confirmados (truncado) y el máximo de recuperados de enfermedades, sin
 embargo, únicamente de aquellos que cumplan con tener vacunas certificadas en el extranjero */
 
+SELECT * FROM `VACUNA` WHERE ID_C IN (SELECT * FROM `EXTRANJERA`)
+
+
 /* 13. Muestra una lista con el rut y el tiempo trabajado de aquellos médicos que hayan trabajado en centros de
 salud que cuenten con previsión Fonasa e Isapre */
 
+SELECT P.RUT_PM, Tiempo_trabajando FROM PERSONAL_MEDICO P
+LEFT JOIN (
+SELECT * FROM `TRABAJA` WHERE ID_CS IN (SELECT ID_CS FROM `CENTRO_DE_SALUD` WHERE Prevision = 'Fonasa-Isapre') AND RUT_PM IN  (SELECT * FROM `MEDICO`)
+    ) C ON 	C.RUT_PM=P.RUT_PM
+    WHERE C.RUT_PM IS NOT NULL AND C.ID_CS IS NOT NULL
 
 /* 14. Obtenga rut, tiempo trabajando y la institución de aquellos empleados que cumplan con ser enfermeros y
 ser aquellos 5 que llevan más tiempo trabajando. Además, el nombre de la institución se debe mostrar
 únicamente por sus tres primeras letras.*/
+
+SELECT P.RUT_PM, Tiempo_trabajando, Institucion FROM PERSONAL_MEDICO P
+LEFT JOIN (
+SELECT * FROM `TRABAJA` WHERE RUT_PM IN  (SELECT * FROM `ENFERMERO`)
+    ) C ON 	C.RUT_PM=P.RUT_PM
+    WHERE C.RUT_PM IS NOT NULL AND C.ID_CS IS NOT NULL  
+ORDER BY `P`.`Tiempo_trabajando`  DESC
+LIMIT 5
 
 -- REQUERIMIENTOS DE ACTUALIZACIÓN
 
