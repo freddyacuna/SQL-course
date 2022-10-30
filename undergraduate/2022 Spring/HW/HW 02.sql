@@ -34,9 +34,31 @@ que no vivan en la región metropolitana, y pertenezcan a un rango etario entre 
 genere una lista que contenga la nacionalidad de las personas, junto con su porcentaje de
 representatividad en relación al total de personas. */
 
+SELECT  T1.Nacionalidad ,
+        T1.Cantidad_Nacionalidad,
+        CONCAT( TRUNCATE((T1.Cantidad_Nacionalidad	/T2.Total)*100,2),"%") AS Porcentaje_Nacionalidad
+FROM (
+SELECT Nacionalidad, count(*) AS Cantidad_Nacionalidad
+FROM (SELECT * FROM `PERSONA` WHERE Region NOT IN ('RM') AND Edad BETWEEN 25 AND 50) A
+    GROUP BY Nacionalidad ORDER BY Nacionalidad ASC
+    ) AS T1,
+(SELECT COUNT(*) AS Total 
+              FROM (SELECT * FROM `PERSONA` WHERE Region NOT IN ('RM') AND Edad BETWEEN 25 AND 50) B
+) AS T2
+ORDER BY T1.Cantidad_Nacionalidad DESC LIMIT 2
+
+
+
 /* 5. Se requiere conocer cuáles han sido las 3 enfermedades con mayor presencia dentro de la gente infectada.
 Para esto, genere una tabla que contenga la cantidad de personas por cada enfermedad. Considere que los
 resultados deben estar ordenados de forma descendente. */
+
+SELECT Nombre_E, COUNT(Rut_P) AS Cantidad_Personas
+FROM `CONTAGIA`
+WHERE Nombre_E IS NOT NULL
+GROUP BY Nombre_E  
+ORDER BY `Cantidad_Personas`  DESC 
+LIMIT  3
 
 /* 6. Se requiere mostrar los puntos de vacunación y su dirección, de aquellos lugares que distribuyan alguna de
 las vacunas contra el COVID-19 y que posean certificación extranjera. */
@@ -54,22 +76,133 @@ SELECT RUT_PM AS RUT , YEAR(NOW())-YEAR(Titulado)  AS ANOS_TITULADO FROM `PERSON
 /* 8. Se requiere mostrar el rut y el tipo de profesión (médico, enfermero, otro) de las dos personas del personal
 médico que se hayan tomado la mayor cantidad de años para comenzar a trabajar luego de su titulación */
 
+SELECT RUT_PM AS RUT, `TIPO PROFESION`
+FROM
+(SELECT *, YEAR(NOW())-YEAR(Titulado) AS 'TITULO ANO',(YEAR(NOW())-YEAR(Titulado)- Tiempo_trabajando) AS NUMERO,
+	CASE	WHEN RUT_PM IN (SELECT * FROM MEDICO) THEN 'MEDICO'
+    		WHEN RUT_PM IN (SELECT * FROM ENFERMERO) THEN 'ENFERMERO'
+            ELSE 'OTRO' 
+            END AS 'TIPO PROFESION'
+FROM `PERSONAL_MEDICO`  
+ORDER BY `NUMERO`  DESC) A
+LIMIT 2
+
 /* 9. Se requiere conocer el promedio de edad por nacionalidad de aquellas personas que han tenido COVID-19.
 Para esto, genere una tabla con la nacionalidad, y su promedio de edad (en números enteros). */
+
+SELECT Nacionalidad, ROUND(AVG(Edad),0) AS 'PROMEDIO EDAD'
+FROM `PERSONA` WHERE Rut_P IN (
+SELECT Rut_P FROM `CONTAGIA` WHERE Nombre_E IN ('COVID-19')
+)
+GROUP BY Nacionalidad
 
 /* 10. Muestre el parentesco y la cantidad de veces que una persona se contagió por un pariente, considerando
 sólo a las personas de rango etario entre 18 y 70 años, cuya cantidad de contagios sea mayor a 10. */
 
+-- puede ser cualquier persona, a lo que se refiere es que muestre el parentesco con la persona que lo contagió y las veces que este contagio ocurrió.
+
+-- En cuanto a la consulta 10, se pide mostrar el parentesco y la cantidad de veces que las personas se contagiaron por este parentesco 
+-- (cuando esta cantidad es mayor a 10), dejame saber si así se entiende mejor el requerimiento.
+
+SELECT * ,
+CASE WHEN ECP.Parentesco='Familiar' THEN 1
+ELSE 0 END AS ES_PARIENTE
+FROM `PERSONA` P
+LEFT JOIN ES_CONTAGIADA_POR ECP ON P.Rut_P=ECP.Rut_P
+WHERE ECP.Rut_P IS NOT NULL AND Edad BETWEEN 18 AND 70
+
+SELECT RUT, Parentesco, SUM(ES_PARIENTE) AS N_CONTAGIO_PARIENTE
+FROM (
+SELECT P.Rut_P AS RUT , Parentesco,
+CASE WHEN ECP.Parentesco='Familiar' THEN 1
+ELSE 0 END AS ES_PARIENTE
+FROM `PERSONA` P
+LEFT JOIN ES_CONTAGIADA_POR ECP ON P.Rut_P=ECP.Rut_P
+WHERE ECP.Rut_P IS NOT NULL AND Edad BETWEEN 18 AND 70) A
+GROUP BY A.RUT , Parentesco
+ORDER BY SUM(ES_PARIENTE)  DESC
+
+
+----
+
+SELECT Parentesco, COUNT(*)
+FROM (SELECT  P.Rut_P AS RUT, Parentesco,
+CASE WHEN ECP.Parentesco='Familiar' THEN 1
+ELSE 0 END AS ES_PARIENTE
+FROM `PERSONA` P
+LEFT JOIN ES_CONTAGIADA_POR ECP ON P.Rut_P=ECP.Rut_P
+LEFT JOIN CONTAGIA C ON C.Rut_P=P.Rut_P
+WHERE 
+Edad BETWEEN 18 AND 70 AND
+ECP.Rut_P IS NOT NULL 
+ORDER BY `C`.`Rut_P` ASC) AS A
+GROUP BY Parentesco
+
 /* 11. Se solicita mostrar cada enfermedad junto con la frecuencia de contagio y la vacuna que busca prevenirla.
 Para esto, se solicita presentar una columna que indique esta clasificación, siendo “Común” si la
-enfermedad se encuentra dentro del 25% con mayor tasa de contagio, &quot;Sospechoso&quot; si se encuentra en el
-60% más bajo y &quot;Estándar&quot; en cualquier otro caso. Finalmente, ordene la tabla por el nombre de
+enfermedad se encuentra dentro del 25% con mayor tasa de contagio, 'Sospechoso'; si se encuentra en el
+60% más bajo y 'Estándar'; en cualquier otro caso. Finalmente, ordene la tabla por el nombre de
 enfermedad, clasificación y Nombre de vacuna. */
+
+SELECT Nombre_E AS 'NOMBRE ENFERMEDAD', N AS 'FREQ CONTAGIO',
+CASE 	WHEN N/TOTAL > 0.75 THEN 'Comun'
+		WHEN N/TOTAL < 0.60 THEN 'Sospechoso'
+        ELSE 'Estandar' END AS CLASIFICACION, NOMBRE_VACUNA
+FROM (SELECT Nombre_E, COUNT(*) AS N,
+      CASE	WHEN V.Nombre_V IS NULL THEN 'Sin Vacuna'
+		WHEN C.Nombre_E = 'COVID-19' THEN 'Astra, Moderna, Pfizer, Sinovac'
+        ELSE V.Nombre_V  END AS NOMBRE_VACUNA 
+FROM `CONTAGIA` C
+LEFT JOIN `VACUNA` V ON V.Enfermedad=C.Nombre_E
+GROUP BY Nombre_E, NOMBRE_VACUNA) AS T1, (SELECT COUNT(*) AS TOTAL
+FROM `CONTAGIA` C
+LEFT JOIN `VACUNA` V ON V.Enfermedad=C.Nombre_E) AS T2 
+ORDER BY Nombre_E, CLASIFICACION, NOMBRE_VACUNA
+
+---
+/*
+SELECT Nombre_E, COUNT(*), 
+CASE	WHEN V.Nombre_V IS NULL THEN 'Sin Vacuna'
+		WHEN C.Nombre_E = 'COVID-19' THEN 'Astra, Moderna, Pfizer, Sinovac'
+        ELSE V.Nombre_V  END AS NOMBRE_VACUNA 
+FROM `CONTAGIA` C
+LEFT JOIN `VACUNA` V ON V.Enfermedad=C.NOmbre_E
+GROUP BY Nombre_E, NOMBRE_VACUNA
+
+----
+
+SELECT * 
+FROM (
+SELECT Nombre_E, COUNT(*) FROM `CONTAGIA` C
+LEFT JOIN `VACUNA` V ON V.Enfermedad=C.NOmbre_E
+GROUP BY Nombre_E  
+ORDER BY COUNT(*)  DESC) AS T1, (SELECT COUNT(*) AS TOTAL FROM CONTAGIA) AS T2
+
+
+----
+
+SELECT *
+(SELECT Nombre_E, COUNT(*)
+FROM `CONTAGIA` C
+LEFT JOIN `VACUNA` V ON V.Enfermedad=C.NOmbre_E
+GROUP BY Nombre_E) AS T1, (SELECT Nombre_E, COUNT(*)
+FROM `CONTAGIA` C
+LEFT JOIN `VACUNA` V ON V.Enfermedad=C.NOmbre_E) AS T2
+
+SELECT Nombre_E, COUNT(*), IF(V.Nombre_V IS NULL, 'Sin Vacuna', Nombre_V) AS NOMBRE_VACUNA 
+FROM `CONTAGIA` C
+LEFT JOIN `VACUNA` V ON V.Enfermedad=C.NOmbre_E
+----
+*/
+
 
 /* 12. Obtenga el promedio de casos confirmados (truncado) y el máximo de recuperados de enfermedades, sin
 embargo, únicamente de aquellos que cumplan con tener vacunas certificadas en el extranjero */
 
-SELECT * FROM `VACUNA` WHERE ID_C IN (SELECT * FROM `EXTRANJERA`)
+SELECT TRUNCATE(AVG(Casos_confirmados),0) AS 'PROMEDIO CASOS CONFIRMADOS', 
+                MAX(Cantidad_recuperados) AS 'MAXIMO RECUPERADOS ENFERMEDADES' FROM `ENFERMEDAD`
+WHERE  Nombre_E IN (SELECT Enfermedad FROM `VACUNA` WHERE ID_C IN (SELECT * FROM `EXTRANJERA`)
+						)
 
 
 /* 13. Muestra una lista con el rut y el tiempo trabajado de aquellos médicos que hayan trabajado en centros de
@@ -102,10 +235,18 @@ DELETE FROM PERSONAL_MEDICO WHERE Tiempo_trabajando < 5
 /* 16. Se tiene gran preocupación hacia los jóvenes (menores a 25 años) que han contagiado a más de una
 persona de la enfermedad que padecen, por lo que se realizó una campaña 100% exitosa para que todas
 aquellas personas que estén dentro de este grupo y que sean Fonasa se cambien a Isapre. Efectúe este
-cambio en la base de datos.
-Suponga que se efectúa un cambio en el programa, de manera que, a cada persona que haya realizado al
-menos 2 prácticas y pertenezca a algún pueblo originario, ahora se le tramitará en seguida su acreditación
-de pensión (si es que no la tenía). Efectúe estos cambios en la base de datos.*/
+cambio en la base de datos.*/
+
+
+UPDATE PERSONA
+SET Prevision = 'Isapre'
+WHERE Rut_P IN (
+SELECT Rut_C
+FROM
+(SELECT Rut_C, COUNT(*) AS N FROM `ES_CONTAGIADA_POR`WHERE Rut_C IN (SELECT Rut_P FROM `PERSONA` WHERE Edad<25 AND Prevision ='Fonasa')
+GROUP BY Rut_C
+) A WHERE N>1
+)
 
 /* 17. El encargado cometió una equivocación y se olvidó de agregar algunos datos en la base, por lo que él le
 pide a usted que agregue en las tablas que sean necesarias los siguientes datos de médicos, de manera que
