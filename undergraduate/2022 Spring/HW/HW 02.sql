@@ -263,11 +263,60 @@ INSERT INTO `PERSONAL_MEDICO` (`RUT_PM`, `Tiempo_trabajando`, `Titulado`, `Insti
 ('10924256-K', 18, '2002-07-12', 'Universidad Arturo Prat'),
 ('23778599-1', 23, '1998-02-19', 'Universidad de Chile');
 
+
+INSERT INTO MEDICO (RUT_PM) VALUES ('27101620-4');
+INSERT INTO MEDICO (RUT_PM) VALUES ('10924256-K');
+INSERT INTO MEDICO (RUT_PM) VALUES ('23778599-1');
+
 /* 18. Agregue a la tabla PERSONAL_MEDICO un atributo llamado “Experiencia”, siendo Mucha Experiencia si está
 dentro del 20% con más experiencia, Experiencia Regular si está en el siguiente 20% y Poca Experiencia si
 no se encuentra en ninguno de los dos anteriores. Sin embargo, si se encuentra en esta última clasificación
 y fue estudiante de la Universidad de Chile, automáticamente sube una clasificación, es decir, se clasifica
 como Experiencia Regular. */
+
+ALTER TABLE PERSONAL_MEDICO ADD Experiencia VARCHAR(64) DEFAULT NULL;
+
+UPDATE `PERSONAL_MEDICO`
+SET PERSONAL_MEDICO.Experiencia='MUCHA EXPERIENCIA'
+WHERE RUT_PM IN (
+SELECT RUT_PM FROM (
+SELECT RUT_PM,
+ CASE	WHEN Tiempo_trabajando/ TOTAL >0.8 THEN 'MUCHA EXPERIENCIA'
+ 		WHEN Tiempo_trabajando/ TOTAL >0.6 THEN 'EXPERIENCIA REGULAR'
+        WHEN Tiempo_trabajando/ TOTAL <=0.6 AND Institucion='Universidad de Chile' THEN 'EXPERIENCIA REGULAR'
+        ELSE 'POCA EXPERIENCIA' END AS TRAMO_EXP 
+FROM `PERSONAL_MEDICO`, (SELECT MAX(Tiempo_trabajando) AS TOTAL FROM `PERSONAL_MEDICO`) AS A
+    ) B WHERE TRAMO_EXP = 'MUCHA EXPERIENCIA'
+
+);
+
+UPDATE `PERSONAL_MEDICO`
+SET PERSONAL_MEDICO.Experiencia='EXPERIENCIA REGULAR'
+WHERE RUT_PM IN (
+SELECT RUT_PM FROM (
+SELECT RUT_PM,
+ CASE	WHEN Tiempo_trabajando/ TOTAL >0.8 THEN 'MUCHA EXPERIENCIA'
+ 		WHEN Tiempo_trabajando/ TOTAL >0.6 THEN 'EXPERIENCIA REGULAR'
+        WHEN Tiempo_trabajando/ TOTAL <=0.6 AND Institucion='Universidad de Chile' THEN 'EXPERIENCIA REGULAR'
+        ELSE 'POCA EXPERIENCIA' END AS TRAMO_EXP 
+FROM `PERSONAL_MEDICO`, (SELECT MAX(Tiempo_trabajando) AS TOTAL FROM `PERSONAL_MEDICO`) AS A
+    ) B WHERE TRAMO_EXP = 'EXPERIENCIA REGULAR'
+
+);
+
+UPDATE `PERSONAL_MEDICO`
+SET PERSONAL_MEDICO.Experiencia='POCA EXPERIENCIA'
+WHERE RUT_PM IN (
+SELECT RUT_PM FROM (
+SELECT RUT_PM,
+ CASE	WHEN Tiempo_trabajando/ TOTAL >0.8 THEN 'MUCHA EXPERIENCIA'
+ 		WHEN Tiempo_trabajando/ TOTAL >0.6 THEN 'EXPERIENCIA REGULAR'
+        WHEN Tiempo_trabajando/ TOTAL <=0.6 AND Institucion='Universidad de Chile' THEN 'EXPERIENCIA REGULAR'
+        ELSE 'POCA EXPERIENCIA' END AS TRAMO_EXP 
+FROM `PERSONAL_MEDICO`, (SELECT MAX(Tiempo_trabajando) AS TOTAL FROM `PERSONAL_MEDICO`) AS A
+    ) B WHERE TRAMO_EXP = 'POCA EXPERIENCIA'
+
+);
 
 /* 19. Duplique la tabla DIAGNOSTICO_MEDICO, generando una nueva tabla llamada “DIAGNOSTICO_MEDICO2”
 que debe poseer las mismas características de la tabla original, pero solo los diagnósticos entregados por
