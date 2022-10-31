@@ -49,6 +49,8 @@ FROM `PROVEEDOR`) AS PP WHERE
 )
 
 
+
+
 /*
 Consulta 4
 
@@ -57,8 +59,17 @@ precio de venta y costo asociado; de los 10 libros más vendidos, cabe destacar 
 correspondientes a cada atributo. Para esto no está permitido duplicar tablas. 
 
 */
-
-
+CREATE TABLE TOPLIBROS
+AS 
+SELECT * FROM (
+SELECT A.Codigo, L.Nombre, L.PrecioVenta, I.Costo
+FROM(
+SELECT Codigo, SUM(Cantidad) AS N FROM `ADQUIERE`
+GROUP BY Codigo  
+ORDER BY SUM(Cantidad)  DESC
+LIMIT 10) A
+LEFT JOIN `LIBRO` L ON L.Codigo = A.Codigo
+LEFT JOIN ITEM I ON I.Codigo = A.Codigo) P
 /*
 Consulta 5
 
@@ -68,6 +79,8 @@ las mismas características y datos que la tabla original.
 
 */
 
+CREATE TABLE OCV2 LIKE ORDEN_DE_COMPRA; 
+INSERT INTO OCV2 SELECT * FROM ORDEN_DE_COMPRA;
 /*
 Consulta 6
 
@@ -77,3 +90,20 @@ mientras que los que tienen bajo o intermedio se les dará la oportunidad de mej
 mientras que al resto se les mantendrá el contrato. 
 Para esto, se le solicita catalogar cada situación como “Anular  contrato”, “Dar aviso”, “Mantener contrato”.  
 */
+
+
+ALTER TABLE PROVEEDOR ADD Situacion tinytext DEFAULT NULL;
+
+
+UPDATE PROVEEDOR
+SET PROVEEDOR.Situacion=(
+SELECT EVAL FROM(
+    SELECT  RutEmpresa,
+CASE WHEN Evaluacion='Insuficiente'	THEN 'Anular contrato'
+ WHEN Evaluacion='Bajo'		THEN 'Dar aviso'
+ WHEN Evaluacion='Intermedio'		THEN 'Dar aviso'
+ELSE 'Mantener'
+END AS EVAL 
+FROM `PROVEEDOR`) AS PP WHERE
+    PP.RutEmpresa=PROVEEDOR.RutEmpresa
+)
