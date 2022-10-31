@@ -5,7 +5,9 @@ Debido a una limpieza y mejora en los productos ofrecidos por la librería,
 se decidió dar de baja aquellas categorías que posean una popularidad de 1 y 2 estrellas, 
 por lo que se le solicita eliminar de la base de datos dicha información. 
 */
+SELECT * FROM `CATEGORIA` WHERE Popularidad IN ('★','★★')
 
+DELETE FROM `CATEGORIA` WHERE Popularidad IN ('★','★★')
 /*
 Consulta 2
 
@@ -13,6 +15,17 @@ El encargado de ventas incurrió en un error al no considerar el IVA (19%) en el
 por lo que se le solicita crear una columna llamada Precio Venta, el cual contendrá el costo, 
 considerando el IVA y el 10% de margen de venta. 
 */
+ALTER TABLE ITEM ADD PRECIO_VENTA INT(11) DEFAULT NULL;
+
+
+
+
+UPDATE ITEM
+SET ITEM.PRECIO_VENTA=(
+  SELECT VALOR FROM (
+  SELECT * , ROUND(Costo*1.19*1.1,0) AS VALOR FROM `ITEM` 
+  ) A WHERE ITEM.Codigo=A.Codigo
+)
 
 /*
 Consulta 3
