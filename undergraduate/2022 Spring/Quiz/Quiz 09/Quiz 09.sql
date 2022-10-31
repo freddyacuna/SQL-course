@@ -29,3 +29,23 @@ precio de venta y costo asociado; de los 10 libros más vendidos, cabe destacar 
 correspondientes a cada atributo. Para esto no está permitido duplicar tablas. 
 
 */
+
+
+/*
+Consulta 5
+
+Para que el personal de programación pueda testear su grupo de proveedores, se le solicita replicar la  
+tabla ORDEN_DE_COMPRA (crear una nueva tabla), generando una nueva tabla llamada OCV2, la cual debe poseer 
+las mismas características y datos que la tabla original. 
+
+*/
+
+/*
+Consulta 6
+
+En relación a la Consulta 3, se le solicita crear una nueva columna llamada “Situación”, 
+en donde aquellos proveedores que tengan evaluación baja no se les renovará contrato, 
+mientras que los que tienen bajo o intermedio se les dará la oportunidad de mejorar, 
+mientras que al resto se les mantendrá el contrato. 
+Para esto, se le solicita catalogar cada situación como “Anular  contrato”, “Dar aviso”, “Mantener contrato”.  
+*/
