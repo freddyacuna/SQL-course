@@ -34,6 +34,21 @@ Debido a que la categoría de evaluación de los proveedores genera errores y pr
 se requiere cambiar la tipificación a Excelente, Alto, Intermedio, Bajo, Insuficiente, siendo Excelente la puntuación mayor e Insuficiente la más baja. 
 */
 
+UPDATE PROVEEDOR
+SET PROVEEDOR. Evaluacion=(
+SELECT EVAL FROM(
+    SELECT  RutEmpresa,
+CASE WHEN Evaluacion='★★★★★'	THEN 'Excelente'
+ WHEN Evaluacion='★★★★'		THEN 'Alto'
+ WHEN Evaluacion='★★★'		THEN 'Intermedio'
+ WHEN Evaluacion='★★'		THEN 'Bajo'
+ELSE 'Insuficiente'
+END AS EVAL 
+FROM `PROVEEDOR`) AS PP WHERE
+    PP.RutEmpresa=PROVEEDOR.RutEmpresa
+)
+
+
 /*
 Consulta 4
 
