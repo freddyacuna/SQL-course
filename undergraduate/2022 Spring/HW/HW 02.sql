@@ -138,6 +138,22 @@ ECP.Rut_P IS NOT NULL
 ORDER BY `C`.`Rut_P` ASC) AS A
 GROUP BY Parentesco
 
+
+SELECT *
+FROM 
+(SELECT Parentesco, COUNT(*) AS 'N_VECES_CONTAGIO'
+FROM (SELECT  P.Rut_P AS RUT, Parentesco,
+CASE WHEN ECP.Parentesco='Familiar' THEN 1
+ELSE 0 END AS ES_PARIENTE
+FROM `PERSONA` P
+LEFT JOIN ES_CONTAGIADA_POR ECP ON P.Rut_P=ECP.Rut_P
+LEFT JOIN CONTAGIA C ON C.Rut_P=P.Rut_P
+WHERE 
+Edad BETWEEN 18 AND 70 AND
+ECP.Rut_P IS NOT NULL 
+ORDER BY `C`.`Rut_P` ASC) AS A
+GROUP BY Parentesco  ) C
+WHERE N_VECES_CONTAGIO>10
 /* 11. Se solicita mostrar cada enfermedad junto con la frecuencia de contagio y la vacuna que busca prevenirla.
 Para esto, se solicita presentar una columna que indique esta clasificación, siendo “Común” si la
 enfermedad se encuentra dentro del 25% con mayor tasa de contagio, 'Sospechoso'; si se encuentra en el
